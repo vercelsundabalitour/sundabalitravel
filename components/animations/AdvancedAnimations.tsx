@@ -156,24 +156,29 @@ export function TextReveal({
   const words = children.split(" ");
 
   return (
-    <motion.div className={className}>
+    <motion.h1
+      className={className}
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.3, delay }}
+    >
       {words.map((word, i) => (
         <motion.span
           key={i}
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
+          initial={{ opacity: 0, y: 30, filter: "blur(10px)" }}
+          animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
           transition={{
-            duration: 0.5,
-            delay: delay + i * 0.1,
-            ease: [0.22, 1, 0.36, 1],
+            duration: 0.6,
+            delay: delay + i * 0.08,
+            ease: [0.25, 0.1, 0.25, 1],
           }}
-          className="inline-block mr-2"
+          className="inline-block mr-2 md:mr-3"
+          style={{ textShadow: "0 2px 20px rgba(0, 0, 0, 0.5)" }}
         >
           {word}
         </motion.span>
       ))}
-    </motion.div>
+    </motion.h1>
   );
 }
 

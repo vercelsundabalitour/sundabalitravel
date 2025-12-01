@@ -38,7 +38,7 @@ export default function Footer() {
               transition={{ duration: 0.5 }}
               viewport={{ once: true }}
             >
-              <h3 className="text-2xl font-heading font-bold text-gradient-primary mb-2">
+              <h3 className="text-2xl font-heading font-bold text-primary mb-2">
                 Sunda Bali Tour
               </h3>
               <p className="text-muted-foreground text-sm leading-relaxed">

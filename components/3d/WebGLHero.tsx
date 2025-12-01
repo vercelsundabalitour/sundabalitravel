@@ -29,7 +29,7 @@ const fragmentShader = `
   varying vec2 vUv;
   varying vec3 vPosition;
   
-  // Improved noise function
+  // Noise function
   vec3 mod289(vec3 x) { return x - floor(x * (1.0 / 289.0)) * 289.0; }
   vec4 mod289(vec4 x) { return x - floor(x * (1.0 / 289.0)) * 289.0; }
   vec4 permute(vec4 x) { return mod289(((x*34.0)+1.0)*x); }
@@ -111,22 +111,29 @@ const fragmentShader = `
     float mouseDist = length(mouseInfluence);
     float mouseEffect = smoothstep(0.5, 0.0, mouseDist) * 0.3;
     
-    // Color gradients - Bali theme
-    vec3 color1 = vec3(0.039, 0.302, 0.235); // Deep Emerald #0A4D3C
-    vec3 color2 = vec3(0.078, 0.416, 0.314); // Lighter Emerald #136A50
-    vec3 color3 = vec3(0.898, 0.753, 0.482); // Sand Gold #E5C07B
+    // Enhanced color palette with better contrast - Bali theme
+    vec3 color1 = vec3(0.02, 0.15, 0.12); // Darker Deep Emerald
+    vec3 color2 = vec3(0.05, 0.35, 0.28); // Medium Emerald
+    vec3 color3 = vec3(0.15, 0.55, 0.45); // Bright Teal
+    vec3 color4 = vec3(0.95, 0.80, 0.50); // Bright Sand Gold
     
-    // Mix colors based on noise and position
-    vec3 color = mix(color1, color2, combinedNoise + 0.5);
-    color = mix(color, color3, noise2 * 0.2 + mouseEffect);
+    // Mix colors based on noise and position for more vibrant result
+    vec3 color = mix(color1, color2, smoothstep(-0.5, 0.5, combinedNoise));
+    color = mix(color, color3, smoothstep(-0.3, 0.7, noise1) * 0.6);
+    color = mix(color, color4, (noise2 * 0.15 + mouseEffect) * 0.8);
     
-    // Add subtle shimmer
-    float shimmer = sin(uTime + uv.x * 10.0) * 0.02;
+    // Add dynamic shimmer
+    float shimmer = sin(uTime * 0.5 + uv.x * 10.0 + uv.y * 8.0) * 0.03;
     color += shimmer;
     
-    // Vignette effect
-    float vignette = smoothstep(0.8, 0.2, length(uv - 0.5));
-    color *= vignette;
+    // Stronger vignette for better text contrast
+    vec2 centered = uv - 0.5;
+    float vignette = 1.0 - smoothstep(0.3, 1.0, length(centered));
+    color *= (0.4 + vignette * 0.6);
+    
+    // Add center glow for text readability
+    float glow = 1.0 - smoothstep(0.0, 0.6, length(centered));
+    color += vec3(0.05, 0.08, 0.1) * glow;
     
     gl_FragColor = vec4(color, 1.0);
   }

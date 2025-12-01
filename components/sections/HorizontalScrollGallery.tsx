@@ -65,18 +65,29 @@ export default function HorizontalScrollGallery({
       ref={containerRef}
       className="relative h-screen overflow-hidden bg-background"
     >
-      <div className="absolute top-1/2 left-8 -translate-y-1/2 z-10">
+      <div className="absolute top-24 sm:top-28 left-8 z-10">
         <motion.h2
-          initial={{ opacity: 0, x: -50 }}
-          whileInView={{ opacity: 1, x: 0 }}
+          initial={{ opacity: 0, y: -20 }}
+          whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
-          className="text-5xl md:text-7xl font-heading font-bold text-foreground writing-mode-vertical-rl rotate-180"
+          className="text-4xl md:text-6xl font-heading font-bold text-foreground"
         >
           Discover Bali
         </motion.h2>
+        <motion.p
+          initial={{ opacity: 0, y: -20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 0.1 }}
+          className="text-lg md:text-xl text-muted-foreground mt-2"
+        >
+          Scroll to explore destinations
+        </motion.p>
       </div>
 
-      <div ref={scrollContainerRef} className="flex items-center h-full pl-32">
+      <div
+        ref={scrollContainerRef}
+        className="flex items-center h-full pl-8 pt-32"
+      >
         {destinations.map((destination, index) => (
           <motion.div
             key={destination.name}

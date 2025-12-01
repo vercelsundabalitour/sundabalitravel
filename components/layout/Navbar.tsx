@@ -6,13 +6,14 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X, Moon, Sun, Phone } from "lucide-react";
 import { useTheme } from "next-themes";
 import { Button } from "@/components/ui/button";
-import LanguageSwitcher from "@/components/ui/LanguageSwitcher";
+import { t } from "@/lib/translations";
+import { useUIStore } from "@/store/uiStore";
 
 const navLinks = [
-  { href: "/", label: "Home" },
-  { href: "/tours", label: "Tour Packages" },
-  { href: "/about", label: "About Us" },
-  { href: "/contact", label: "Contact" },
+  { href: "/", label: "nav.home" },
+  { href: "/tours", label: "nav.tours" },
+  { href: "/about", label: "nav.about" },
+  { href: "/contact", label: "nav.contact" },
 ];
 
 export default function Navbar() {
@@ -20,6 +21,7 @@ export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const { theme, setTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
+  const { language } = useUIStore();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -40,7 +42,7 @@ export default function Navbar() {
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
         scrolled
           ? "bg-background/95 backdrop-blur-md shadow-lg border-b border-border"
-          : "bg-transparent"
+          : "bg-black/30 backdrop-blur-sm"
       }`}
     >
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
@@ -52,10 +54,14 @@ export default function Navbar() {
               whileTap={{ scale: 0.95 }}
               className="relative"
             >
-              <h1 className="text-2xl sm:text-3xl font-heading font-bold text-gradient-primary">
+              <h1 className="text-2xl sm:text-3xl font-heading font-bold text-primary">
                 Sunda Bali
               </h1>
-              <p className="text-xs sm:text-sm text-muted-foreground font-body">
+              <p
+                className={`text-xs sm:text-sm font-body ${
+                  scrolled ? "text-muted-foreground" : "text-white/80"
+                }`}
+              >
                 Tour & Travel
               </p>
             </motion.div>
@@ -67,9 +73,11 @@ export default function Navbar() {
               <Link key={link.href} href={link.href}>
                 <Button
                   variant="ghost"
-                  className="text-foreground hover:text-primary transition-colors font-medium"
+                  className={`${
+                    scrolled ? "text-foreground" : "text-white"
+                  } hover:text-primary transition-colors font-medium`}
                 >
-                  {link.label}
+                  {t(link.label, language)}
                 </Button>
               </Link>
             ))}
@@ -81,14 +89,9 @@ export default function Navbar() {
             >
               <Button className="gradient-primary text-white ml-2">
                 <Phone className="w-4 h-4 mr-2" />
-                Book Now
+                {t("nav.bookNow", language)}
               </Button>
             </a>
-
-            {/* Language Switcher */}
-            <div className="ml-2">
-              <LanguageSwitcher />
-            </div>
 
             {/* Theme Toggle */}
             {mounted && (
@@ -96,7 +99,9 @@ export default function Navbar() {
                 variant="ghost"
                 size="icon"
                 onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-                className="ml-2"
+                className={`ml-2 ${
+                  scrolled ? "" : "text-white hover:text-white/80"
+                }`}
               >
                 {theme === "dark" ? (
                   <Sun className="w-5 h-5" />
@@ -114,6 +119,7 @@ export default function Navbar() {
                 variant="ghost"
                 size="icon"
                 onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
+                className={scrolled ? "" : "text-white hover:text-white/80"}
               >
                 {theme === "dark" ? (
                   <Sun className="w-5 h-5" />
@@ -126,7 +132,9 @@ export default function Navbar() {
               variant="ghost"
               size="icon"
               onClick={() => setIsOpen(!isOpen)}
-              className="text-foreground"
+              className={
+                scrolled ? "text-foreground" : "text-white hover:text-white/80"
+              }
             >
               {isOpen ? (
                 <X className="w-6 h-6" />
@@ -161,7 +169,7 @@ export default function Navbar() {
                     onClick={() => setIsOpen(false)}
                     className="block py-3 px-4 rounded-lg hover:bg-accent transition-colors font-medium text-foreground"
                   >
-                    {link.label}
+                    {t(link.label, language)}
                   </Link>
                 </motion.div>
               ))}
@@ -179,7 +187,7 @@ export default function Navbar() {
                 >
                   <Button className="w-full gradient-primary text-white">
                     <Phone className="w-4 h-4 mr-2" />
-                    Book Now via WhatsApp
+                    {t("nav.bookNow", language)}
                   </Button>
                 </a>
               </motion.div>

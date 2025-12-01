@@ -4,6 +4,7 @@ import "./globals.css";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import WhatsAppFAB from "@/components/ui/WhatsAppFAB";
+import LanguageFAB from "@/components/ui/LanguageFAB";
 import CustomCursor from "@/components/ui/CustomCursor";
 import StructuredData from "@/components/StructuredData";
 import { ThemeProvider } from "@/components/providers/ThemeProvider";
@@ -71,6 +72,7 @@ export default function RootLayout({
             <main className="min-h-screen">{children}</main>
             <Footer />
             <WhatsAppFAB />
+            <LanguageFAB />
           </SmoothScrollProvider>
         </ThemeProvider>
       </body>
