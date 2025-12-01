@@ -14,14 +14,14 @@ const contactInfo = [
   {
     icon: Phone,
     title: "Phone / WhatsApp",
-    content: "+62 812-3456-7890",
-    link: "https://wa.me/6281234567890",
+    content: "+62 895-4022-61536",
+    link: "https://wa.me/6289540226153",
   },
   {
     icon: Mail,
     title: "Email",
-    content: "info@sundabalitour.com",
-    link: "mailto:info@sundabalitour.com",
+    content: "sundabalitour@gmail.com",
+    link: "mailto:sundabalitour@gmail.com",
   },
   {
     icon: MapPin,
@@ -43,7 +43,7 @@ export default function ContactPage() {
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const { toast } = useToast();
-  const whatsappNumber = "+6281234567890";
+  const whatsappNumber = "+6289540226153";
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>

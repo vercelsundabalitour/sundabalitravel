@@ -6,8 +6,8 @@ export default function StructuredData() {
     description:
       "Private driver and custom tour experience in Bali with warm Sunda hospitality",
     url: "https://www.sundabalitour.com",
-    telephone: "+6281234567890",
-    email: "info@sundabalitour.com",
+    telephone: "+6289540226153",
+    email: "sundabalitour@gmail.com",
     address: {
       "@type": "PostalAddress",
       streetAddress: "Ubud",

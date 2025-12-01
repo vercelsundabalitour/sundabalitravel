@@ -24,7 +24,7 @@ const socialLinks = [
 ];
 
 export default function Footer() {
-  const whatsappNumber = "+6281234567890";
+  const whatsappNumber = "+6289540226153";
 
   return (
     <footer className="bg-linear-to-b from-background to-muted border-t border-border">

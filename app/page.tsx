@@ -30,7 +30,7 @@ import { useUIStore } from "@/store/uiStore";
 
 export default function Home() {
   const { language } = useUIStore();
-  const whatsappNumber = "+6281234567890";
+  const whatsappNumber = "+6289540226153";
 
   const heroSlides = [
     {
@@ -116,46 +116,47 @@ export default function Home() {
               transition={{ duration: 0.8, ease: [0.25, 0.1, 0.25, 1] }}
               className="space-y-6"
             >
-              <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-heading font-bold text-white leading-tight drop-shadow-2xl">
+              <h1 className="text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-heading font-bold text-white leading-[1.1] drop-shadow-2xl px-4">
                 {heroSlides[currentSlide].title}
               </h1>
 
               <p
-                className="text-xl sm:text-2xl md:text-3xl text-white font-light max-w-3xl mx-auto drop-shadow-lg"
+                className="text-lg sm:text-xl md:text-3xl text-white font-light max-w-3xl mx-auto drop-shadow-lg px-4"
                 style={{ textShadow: "0 2px 15px rgba(0, 0, 0, 0.6)" }}
               >
                 {heroSlides[currentSlide].subtitle}
               </p>
 
               <p
-                className="text-base sm:text-lg text-white/95 max-w-2xl mx-auto drop-shadow-md"
+                className="text-sm sm:text-base md:text-lg text-white/90 max-w-2xl mx-auto drop-shadow-md px-6"
                 style={{ textShadow: "0 2px 10px rgba(0, 0, 0, 0.5)" }}
               >
                 {t("hero.description", language)}
               </p>
 
-              <div className="flex flex-col sm:flex-row gap-4 justify-center items-center pt-8 pb-20">
+              <div className="flex flex-col gap-3 sm:gap-4 justify-center items-stretch sm:items-center pt-6 sm:pt-8 pb-24 sm:pb-20 px-4 sm:px-0 w-full max-w-md sm:max-w-none sm:flex-row">
                 <a
                   href={`https://wa.me/${whatsappNumber}`}
                   target="_blank"
                   rel="noopener noreferrer"
+                  className="w-full sm:w-auto"
                 >
                   <MagneticButton>
                     <Button
                       size="lg"
-                      className="gradient-primary text-white text-lg px-8 py-6 group"
+                      className="gradient-primary text-white text-base sm:text-lg px-6 sm:px-8 py-5 sm:py-6 group w-full sm:w-auto min-h-[56px] active:scale-95 transition-transform"
                     >
                       {t("hero.bookWhatsApp", language)}
                       <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
                     </Button>
                   </MagneticButton>
                 </a>
-                <Link href="/tours">
+                <Link href="/tours" className="w-full sm:w-auto">
                   <MagneticButton>
                     <Button
                       size="lg"
                       variant="outline"
-                      className="text-lg px-8 py-6 bg-white/10 backdrop-blur-sm border-white/30 text-white hover:bg-white/20"
+                      className="text-base sm:text-lg px-6 sm:px-8 py-5 sm:py-6 bg-white/10 backdrop-blur-sm border-white/30 text-white hover:bg-white/20 w-full sm:w-auto min-h-[56px] active:scale-95 transition-transform"
                     >
                       {t("hero.viewPackages", language)}
                     </Button>
@@ -169,41 +170,41 @@ export default function Home() {
         {/* Navigation Arrows */}
         <button
           onClick={prevSlide}
-          className="absolute left-4 sm:left-8 top-1/2 -translate-y-1/2 z-20 w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-white/10 backdrop-blur-sm border border-white/30 flex items-center justify-center text-white hover:bg-white/20 transition-all duration-300 group"
+          className="absolute left-2 sm:left-8 top-1/2 -translate-y-1/2 z-20 w-10 h-10 sm:w-14 sm:h-14 rounded-full bg-white/20 backdrop-blur-md border border-white/40 flex items-center justify-center text-white hover:bg-white/30 active:scale-90 transition-all duration-300 group touch-manipulation"
           aria-label="Previous slide"
         >
-          <ChevronLeft className="w-6 h-6 sm:w-7 sm:h-7 group-hover:-translate-x-1 transition-transform" />
+          <ChevronLeft className="w-5 h-5 sm:w-7 sm:h-7 group-hover:-translate-x-1 transition-transform" />
         </button>
         <button
           onClick={nextSlide}
-          className="absolute right-4 sm:right-8 top-1/2 -translate-y-1/2 z-20 w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-white/10 backdrop-blur-sm border border-white/30 flex items-center justify-center text-white hover:bg-white/20 transition-all duration-300 group"
+          className="absolute right-2 sm:right-8 top-1/2 -translate-y-1/2 z-20 w-10 h-10 sm:w-14 sm:h-14 rounded-full bg-white/20 backdrop-blur-md border border-white/40 flex items-center justify-center text-white hover:bg-white/30 active:scale-90 transition-all duration-300 group touch-manipulation"
           aria-label="Next slide"
         >
-          <ChevronRight className="w-6 h-6 sm:w-7 sm:h-7 group-hover:translate-x-1 transition-transform" />
+          <ChevronRight className="w-5 h-5 sm:w-7 sm:h-7 group-hover:translate-x-1 transition-transform" />
         </button>
 
         {/* Slide Indicators */}
-        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-20 flex gap-3">
+        <div className="absolute bottom-6 sm:bottom-8 left-1/2 -translate-x-1/2 z-20 flex gap-2 sm:gap-3">
           {heroSlides.map((_, index) => (
             <button
               key={index}
               onClick={() => setCurrentSlide(index)}
-              className={`h-2 rounded-full transition-all duration-300 ${
+              className={`h-2 rounded-full transition-all duration-300 touch-manipulation ${
                 index === currentSlide
-                  ? "w-12 bg-white"
-                  : "w-2 bg-white/40 hover:bg-white/60"
+                  ? "w-8 sm:w-12 bg-white"
+                  : "w-2 bg-white/40 hover:bg-white/60 active:bg-white/80"
               }`}
               aria-label={`Go to slide ${index + 1}`}
             />
           ))}
         </div>
 
-        {/* Scroll Indicator */}
+        {/* Scroll Indicator - Hidden on mobile to avoid clutter */}
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 1.5, duration: 1 }}
-          className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10"
+          className="hidden sm:block absolute bottom-8 left-1/2 -translate-x-1/2 z-10"
         >
           <motion.div
             animate={{ y: [0, 10, 0] }}
@@ -216,7 +217,7 @@ export default function Home() {
       </section>
 
       {/* Services Section */}
-      <section className="py-16 sm:py-24 bg-gradient-to-b from-background via-primary/5 to-background relative overflow-hidden">
+      <section className="py-12 sm:py-16 md:py-24 bg-gradient-to-b from-background via-primary/5 to-background relative overflow-hidden">
         {/* Animated Wave Shapes */}
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
           {/* Top Wave */}
@@ -315,7 +316,7 @@ export default function Home() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6, delay: 0.1 }}
-              className="text-4xl sm:text-5xl md:text-6xl font-heading font-bold text-foreground mb-6 bg-gradient-to-r from-primary via-foreground to-secondary bg-clip-text text-transparent"
+              className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-heading font-bold text-foreground mb-4 sm:mb-6 bg-gradient-to-r from-primary via-foreground to-secondary bg-clip-text text-transparent px-4"
             >
               {t("services.title", language)}
             </motion.h2>
@@ -325,7 +326,7 @@ export default function Home() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6, delay: 0.2 }}
-              className="text-lg sm:text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed"
+              className="text-base sm:text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed px-6"
             >
               {t("services.description", language)}
             </motion.p>
@@ -437,7 +438,7 @@ export default function Home() {
       <HorizontalScrollGallery destinations={featuredDestinations} />
 
       {/* Testimonials Section */}
-      <section className="py-16 sm:py-24 bg-gradient-to-b from-background via-secondary/5 to-background relative overflow-hidden">
+      <section className="py-12 sm:py-16 md:py-24 bg-gradient-to-b from-background via-secondary/5 to-background relative overflow-hidden">
         {/* Decorative Background Elements */}
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
           {/* Curved Wave Top */}
@@ -624,7 +625,7 @@ export default function Home() {
       </section>
 
       {/* CTA Section with Parallax */}
-      <section className="py-24 sm:py-32 relative overflow-hidden">
+      <section className="py-16 sm:py-24 md:py-32 relative overflow-hidden">
         {/* Animated Background */}
         <div className="absolute inset-0">
           <ParallaxImage
