@@ -14,6 +14,12 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { tourPackages, TourPackage } from "@/lib/data/tours";
+import TiltCard from "@/components/ui/TiltCard";
+import {
+  MagneticButton,
+  ScrollReveal,
+  TextReveal,
+} from "@/components/animations/AdvancedAnimations";
 
 const categories = ["All", "Adventure", "Culture", "Beach", "Nature", "Family"];
 
@@ -56,9 +62,9 @@ export default function ToursPage() {
             transition={{ duration: 0.8 }}
             className="space-y-4"
           >
-            <h1 className="text-4xl sm:text-5xl md:text-6xl font-heading font-bold text-white">
+            <TextReveal className="text-4xl sm:text-5xl md:text-6xl font-heading font-bold text-white">
               Tour Packages
-            </h1>
+            </TextReveal>
             <p className="text-lg sm:text-xl text-white/90 max-w-2xl mx-auto">
               Discover unforgettable experiences tailored to your perfect Bali
               adventure
@@ -102,67 +108,74 @@ export default function ToursPage() {
             className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
           >
             {filteredTours.map((tour, index) => (
-              <motion.div
-                key={tour.id}
-                layout
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 0.9 }}
-                transition={{ duration: 0.4, delay: index * 0.1 }}
-              >
-                <Card className="overflow-hidden h-full hover:shadow-2xl transition-all duration-300 group cursor-pointer">
-                  <div className="relative h-64 overflow-hidden">
-                    <Image
-                      src={tour.image}
-                      alt={tour.title}
-                      fill
-                      className="object-cover group-hover:scale-110 transition-transform duration-500"
-                    />
-                    <div className="absolute top-4 right-4">
-                      <span className="px-3 py-1 rounded-full text-xs font-semibold bg-secondary text-primary">
-                        {tour.category}
-                      </span>
-                    </div>
-                  </div>
-
-                  <CardContent className="p-6 space-y-4">
-                    <h3 className="text-2xl font-heading font-bold text-foreground group-hover:text-primary transition-colors">
-                      {tour.title}
-                    </h3>
-
-                    <p className="text-muted-foreground line-clamp-2">
-                      {tour.description}
-                    </p>
-
-                    <div className="flex items-center justify-between text-sm text-muted-foreground">
-                      <div className="flex items-center space-x-2">
-                        <Clock className="w-4 h-4" />
-                        <span>{tour.duration}</span>
-                      </div>
-                      <div className="flex items-center space-x-2 text-primary font-semibold">
-                        <DollarSign className="w-4 h-4" />
-                        <span>{tour.price}</span>
+              <ScrollReveal key={tour.id}>
+                <TiltCard
+                  options={{
+                    max: 10,
+                    speed: 400,
+                    glare: true,
+                    "max-glare": 0.2,
+                    scale: 1.03,
+                  }}
+                >
+                  <Card className="overflow-hidden h-full hover:shadow-2xl transition-all duration-300 group cursor-pointer">
+                    <div className="relative h-64 overflow-hidden">
+                      <Image
+                        src={tour.image}
+                        alt={tour.title}
+                        fill
+                        className="object-cover group-hover:scale-110 transition-transform duration-500"
+                      />
+                      <div className="absolute top-4 right-4">
+                        <span className="px-3 py-1 rounded-full text-xs font-semibold bg-secondary text-primary">
+                          {tour.category}
+                        </span>
                       </div>
                     </div>
 
-                    <div className="flex gap-3 pt-2">
-                      <Button
-                        onClick={() => setSelectedTour(tour)}
-                        variant="outline"
-                        className="flex-1"
-                      >
-                        View Details
-                      </Button>
-                      <Button
-                        onClick={() => handleBookNow(tour.title)}
-                        className="flex-1 gradient-primary text-white"
-                      >
-                        Book Now
-                      </Button>
-                    </div>
-                  </CardContent>
-                </Card>
-              </motion.div>
+                    <CardContent className="p-6 space-y-4">
+                      <h3 className="text-2xl font-heading font-bold text-foreground group-hover:text-primary transition-colors">
+                        {tour.title}
+                      </h3>
+
+                      <p className="text-muted-foreground line-clamp-2">
+                        {tour.description}
+                      </p>
+
+                      <div className="flex items-center justify-between text-sm text-muted-foreground">
+                        <div className="flex items-center space-x-2">
+                          <Clock className="w-4 h-4" />
+                          <span>{tour.duration}</span>
+                        </div>
+                        <div className="flex items-center space-x-2 text-primary font-semibold">
+                          <DollarSign className="w-4 h-4" />
+                          <span>{tour.price}</span>
+                        </div>
+                      </div>
+
+                      <div className="flex gap-3 pt-2">
+                        <MagneticButton>
+                          <Button
+                            onClick={() => setSelectedTour(tour)}
+                            variant="outline"
+                            className="flex-1"
+                          >
+                            View Details
+                          </Button>
+                        </MagneticButton>
+                        <MagneticButton>
+                          <Button
+                            onClick={() => handleBookNow(tour.title)}
+                            className="flex-1 gradient-primary text-white"
+                          >
+                            Book Now
+                          </Button>
+                        </MagneticButton>
+                      </div>
+                    </CardContent>
+                  </Card>
+                </TiltCard>
+              </ScrollReveal>
             ))}
           </motion.div>
 

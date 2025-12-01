@@ -21,27 +21,33 @@ This guide will help you customize the website with your own content, images, an
 Replace `+6281234567890` with your actual WhatsApp business number in:
 
 1. **components/layout/Navbar.tsx** (Line 30)
+
 ```typescript
-const whatsappNumber = '+6281234567890' // Replace with actual number
+const whatsappNumber = "+6281234567890"; // Replace with actual number
 ```
 
 2. **components/ui/WhatsAppFAB.tsx** (Line 10)
+
 ```typescript
-const whatsappNumber = '+6281234567890' // Replace with actual number
+const whatsappNumber = "+6281234567890"; // Replace with actual number
 ```
 
 3. **app/tours/page.tsx** (Line 23)
+
 ```typescript
-const whatsappNumber = '+6281234567890'
+const whatsappNumber = "+6281234567890";
 ```
 
 4. **app/contact/page.tsx** (Line 32)
+
 ```typescript
-const whatsappNumber = '+6281234567890'
+const whatsappNumber = "+6281234567890";
 ```
 
 ### Testing WhatsApp Integration
+
 After updating, test by clicking:
+
 - Book Now buttons
 - WhatsApp FAB (floating button)
 - Contact form submission
@@ -51,29 +57,34 @@ After updating, test by clicking:
 ## 🖼️ Image Replacement
 
 ### Current Placeholder Images
+
 All images are from Unsplash. Replace them with your professional photos.
 
 ### Hero Images (High Priority)
 
 **Home Page Hero** - `app/page.tsx` (Line 27)
+
 ```typescript
-src="https://images.unsplash.com/photo-1537996194471-e657df975ab4?w=1920"
+src = "https://images.unsplash.com/photo-1537996194471-e657df975ab4?w=1920";
 // Replace with: "/images/hero-home.jpg"
 ```
 
 **Tours Page Hero** - `app/tours/page.tsx` (Line 37)
+
 ```typescript
-src="https://images.unsplash.com/photo-1537996194471-e657df975ab4?w=1920"
+src = "https://images.unsplash.com/photo-1537996194471-e657df975ab4?w=1920";
 ```
 
 **About Page Hero** - `app/about/page.tsx` (Line 31)
+
 ```typescript
-src="https://images.unsplash.com/photo-1537996194471-e657df975ab4?w=1920"
+src = "https://images.unsplash.com/photo-1537996194471-e657df975ab4?w=1920";
 ```
 
 **Contact Page Hero** - `app/contact/page.tsx` (Line 102)
+
 ```typescript
-src="https://images.unsplash.com/photo-1559827260-dc66d52bef19?w=1920"
+src = "https://images.unsplash.com/photo-1559827260-dc66d52bef19?w=1920";
 ```
 
 ### Tour Package Images
@@ -92,12 +103,14 @@ Edit `lib/data/tours.ts` to update tour package images:
 ### Image Optimization Tips
 
 1. **Recommended Sizes:**
+
    - Hero images: 1920x1080px
    - Tour cards: 800x600px
    - Gallery: 600x600px
    - Testimonials: 150x150px
 
 2. **Formats:**
+
    - Use WebP for best compression
    - JPG for photos
    - PNG for graphics with transparency
@@ -122,28 +135,32 @@ File: `lib/data/tours.ts`
 ```typescript
 export const tourPackages: TourPackage[] = [
   {
-    id: 'unique-id',                    // Unique identifier
-    title: 'Tour Name',                 // Display name
-    description: 'Short description',    // Card description
-    longDescription: 'Full details',     // Modal description
-    duration: 'Full Day (8-10 hours)',  // Tour length
-    price: 'From $65/person',           // Pricing
-    category: 'Culture',                // Filter category
-    image: '/images/tours/tour.jpg',    // Image path
-    highlights: [                       // Key attractions
-      'Highlight 1',
-      'Highlight 2',
+    id: "unique-id", // Unique identifier
+    title: "Tour Name", // Display name
+    description: "Short description", // Card description
+    longDescription: "Full details", // Modal description
+    duration: "Full Day (8-10 hours)", // Tour length
+    price: "From $65/person", // Pricing
+    category: "Culture", // Filter category
+    image: "/images/tours/tour.jpg", // Image path
+    highlights: [
+      // Key attractions
+      "Highlight 1",
+      "Highlight 2",
     ],
-    included: [                         // What's included
-      'Private transportation',
-      'English-speaking guide',
-    ]
-  }
-]
+    included: [
+      // What's included
+      "Private transportation",
+      "English-speaking guide",
+    ],
+  },
+];
 ```
 
 ### Categories
+
 Available filter categories:
+
 - `'Adventure'`
 - `'Culture'`
 - `'Beach'`
@@ -159,6 +176,7 @@ Available filter categories:
 **File: `components/layout/Footer.tsx`** (Lines 130-150)
 
 Update address, phone, and email:
+
 ```typescript
 <span className="text-muted-foreground">
   Ubud, Gianyar, Bali<br />Indonesia 80571
@@ -172,6 +190,7 @@ Update address, phone, and email:
 **File: `components/StructuredData.tsx`**
 
 Update Schema.org data for SEO:
+
 ```typescript
 "telephone": "+6281234567890",
 "email": "info@sundabalitour.com",
@@ -216,8 +235,8 @@ Update CSS variables:
 
 ```css
 :root {
-  --primary: 10 77 60;      /* Your primary color (RGB) */
-  --secondary: 229 192 123;  /* Your accent color (RGB) */
+  --primary: 10 77 60; /* Your primary color (RGB) */
+  --secondary: 229 192 123; /* Your accent color (RGB) */
   --background: 248 245 239; /* Page background (RGB) */
 }
 ```
@@ -234,7 +253,9 @@ Update CSS variables:
 ```
 
 ### Color Conversion Tool
+
 Convert hex to RGB:
+
 ```
 #0A4D3C → rgb(10, 77, 60) → 10 77 60 (for Tailwind)
 ```
@@ -247,13 +268,18 @@ Convert hex to RGB:
 
 ```typescript
 const socialLinks = [
-  { icon: Facebook, href: 'https://facebook.com/yourpage', label: 'Facebook' },
-  { icon: Instagram, href: 'https://instagram.com/yourhandle', label: 'Instagram' },
-  { icon: Mail, href: 'mailto:your@email.com', label: 'Email' },
-]
+  { icon: Facebook, href: "https://facebook.com/yourpage", label: "Facebook" },
+  {
+    icon: Instagram,
+    href: "https://instagram.com/yourhandle",
+    label: "Instagram",
+  },
+  { icon: Mail, href: "mailto:your@email.com", label: "Email" },
+];
 ```
 
 Add more platforms:
+
 ```typescript
 import { Youtube, Twitter } from 'lucide-react'
 
@@ -270,18 +296,20 @@ import { Youtube, Twitter } from 'lucide-react'
 **File: `app/layout.tsx`** (Lines 18-35)
 
 Update site metadata:
+
 ```typescript
 export const metadata: Metadata = {
   title: "Your Business Name - Tagline",
   description: "Your business description",
   keywords: "bali, tour, travel, your keywords",
   // ... other fields
-}
+};
 ```
 
 ### Page Titles
 
 Each page has its own metadata:
+
 - `app/tours/layout.tsx`
 - `app/about/layout.tsx`
 - `app/contact/layout.tsx`
@@ -293,13 +321,13 @@ Each page has its own metadata:
 ```typescript
 export const testimonials = [
   {
-    name: 'Customer Name',
-    location: 'Country',
+    name: "Customer Name",
+    location: "Country",
     rating: 5,
-    comment: 'Their testimonial',
-    image: '/images/testimonials/customer.jpg'
-  }
-]
+    comment: "Their testimonial",
+    image: "/images/testimonials/customer.jpg",
+  },
+];
 ```
 
 ### Featured Destinations
@@ -309,11 +337,11 @@ export const testimonials = [
 ```typescript
 export const featuredDestinations = [
   {
-    name: 'Destination Name',
-    description: 'Short description',
-    image: '/images/destinations/place.jpg'
-  }
-]
+    name: "Destination Name",
+    description: "Short description",
+    image: "/images/destinations/place.jpg",
+  },
+];
 ```
 
 ---
@@ -354,11 +382,10 @@ export const featuredDestinations = [
 **Problem:** External images blocked
 
 **Solution:** Add domain to `next.config.ts`:
+
 ```typescript
 images: {
-  remotePatterns: [
-    { protocol: 'https', hostname: 'yourdomain.com' }
-  ]
+  remotePatterns: [{ protocol: "https", hostname: "yourdomain.com" }];
 }
 ```
 
@@ -367,6 +394,7 @@ images: {
 **Problem:** Incorrect number format
 
 **Solution:** Use international format without spaces:
+
 ```
 Correct: +6281234567890
 Wrong: +62 812 3456 7890
@@ -377,6 +405,7 @@ Wrong: +62 812 3456 7890
 **Problem:** TypeScript errors during build
 
 **Solution:**
+
 ```bash
 npm run build
 # Check error messages

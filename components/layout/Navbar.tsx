@@ -6,6 +6,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X, Moon, Sun, Phone } from "lucide-react";
 import { useTheme } from "next-themes";
 import { Button } from "@/components/ui/button";
+import LanguageSwitcher from "@/components/ui/LanguageSwitcher";
 
 const navLinks = [
   { href: "/", label: "Home" },
@@ -83,6 +84,11 @@ export default function Navbar() {
                 Book Now
               </Button>
             </a>
+
+            {/* Language Switcher */}
+            <div className="ml-2">
+              <LanguageSwitcher />
+            </div>
 
             {/* Theme Toggle */}
             {mounted && (

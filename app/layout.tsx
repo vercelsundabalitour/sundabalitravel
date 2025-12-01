@@ -1,15 +1,19 @@
 import type { Metadata } from "next";
-import { Playfair_Display, Inter } from "next/font/google";
+import { Cormorant_Garamond, Inter } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import WhatsAppFAB from "@/components/ui/WhatsAppFAB";
+import CustomCursor from "@/components/ui/CustomCursor";
 import StructuredData from "@/components/StructuredData";
 import { ThemeProvider } from "@/components/providers/ThemeProvider";
+import SmoothScrollProvider from "@/components/providers/SmoothScrollProvider";
+import ScrollProgress from "@/components/ui/ScrollProgress";
 
-const playfair = Playfair_Display({
+const cormorant = Cormorant_Garamond({
   variable: "--font-heading",
   subsets: ["latin"],
+  weight: ["300", "400", "500", "600", "700"],
   display: "swap",
 });
 
@@ -52,7 +56,7 @@ export default function RootLayout({
         <StructuredData />
       </head>
       <body
-        className={`${playfair.variable} ${inter.variable} font-body antialiased`}
+        className={`${cormorant.variable} ${inter.variable} font-body antialiased`}
       >
         <ThemeProvider
           attribute="class"
@@ -60,10 +64,14 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <Navbar />
-          <main className="min-h-screen">{children}</main>
-          <Footer />
-          <WhatsAppFAB />
+          <SmoothScrollProvider>
+            <ScrollProgress />
+            <CustomCursor />
+            <Navbar />
+            <main className="min-h-screen">{children}</main>
+            <Footer />
+            <WhatsAppFAB />
+          </SmoothScrollProvider>
         </ThemeProvider>
       </body>
     </html>

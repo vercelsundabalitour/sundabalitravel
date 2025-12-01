@@ -4,6 +4,13 @@ import { motion } from "framer-motion";
 import Image from "next/image";
 import { Heart, Users, Award, Shield } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
+import {
+  ScrollReveal,
+  TextReveal,
+  ParallaxImage,
+  MagneticButton,
+} from "@/components/animations/AdvancedAnimations";
+import TiltCard from "@/components/ui/TiltCard";
 
 const values = [
   {
@@ -95,9 +102,9 @@ export default function AboutPage() {
             transition={{ duration: 0.8 }}
             className="space-y-4"
           >
-            <h1 className="text-4xl sm:text-5xl md:text-6xl font-heading font-bold text-white">
+            <TextReveal className="text-4xl sm:text-5xl md:text-6xl font-heading font-bold text-white">
               About Us
-            </h1>
+            </TextReveal>
             <p className="text-lg sm:text-xl text-white/90 max-w-2xl mx-auto">
               Where Sunda warmth meets Balinese beauty
             </p>
@@ -109,60 +116,52 @@ export default function AboutPage() {
       <section className="py-16 sm:py-24 bg-background">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
-            <motion.div
-              initial={{ opacity: 0, x: -50 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.8 }}
-              viewport={{ once: true }}
-              className="space-y-6"
-            >
-              <h2 className="text-3xl sm:text-4xl md:text-5xl font-heading font-bold text-foreground">
-                Our Story
-              </h2>
-              <div className="space-y-4 text-muted-foreground leading-relaxed">
-                <p>
-                  Sunda Bali Tour was born from a simple passion: sharing the
-                  incredible beauty and rich culture of Bali with travelers from
-                  around the world, while bringing the warmth and hospitality of
-                  Sunda traditions.
-                </p>
-                <p>
-                  Founded by a Sundanese family who fell in love with Bali, we
-                  understand what it means to be both a local and a traveler.
-                  This unique perspective allows us to create experiences that
-                  go beyond typical tourist routes, revealing the authentic soul
-                  of Bali.
-                </p>
-                <p>
-                  Every tour we offer is crafted with care, blending Sundanese
-                  hospitality—known for its warmth, respect, and genuine
-                  care—with deep knowledge of Bali's hidden treasures. We don't
-                  just show you places; we help you feel the spirit of the
-                  island.
-                </p>
-                <p>
-                  Today, we're proud to be one of Bali's most trusted tour
-                  operators, but we've never forgotten our roots. Whether you're
-                  our first guest or our thousandth, you'll always be treated
-                  like family.
-                </p>
+            <ScrollReveal>
+              <div className="space-y-6">
+                <TextReveal className="text-3xl sm:text-4xl md:text-5xl font-heading font-bold text-foreground">
+                  Our Story
+                </TextReveal>
+                <div className="space-y-4 text-muted-foreground leading-relaxed">
+                  <p>
+                    Sunda Bali Tour was born from a simple passion: sharing the
+                    incredible beauty and rich culture of Bali with travelers
+                    from around the world, while bringing the warmth and
+                    hospitality of Sunda traditions.
+                  </p>
+                  <p>
+                    Founded by a Sundanese family who fell in love with Bali, we
+                    understand what it means to be both a local and a traveler.
+                    This unique perspective allows us to create experiences that
+                    go beyond typical tourist routes, revealing the authentic
+                    soul of Bali.
+                  </p>
+                  <p>
+                    Every tour we offer is crafted with care, blending Sundanese
+                    hospitality—known for its warmth, respect, and genuine
+                    care—with deep knowledge of Bali's hidden treasures. We
+                    don't just show you places; we help you feel the spirit of
+                    the island.
+                  </p>
+                  <p>
+                    Today, we're proud to be one of Bali's most trusted tour
+                    operators, but we've never forgotten our roots. Whether
+                    you're our first guest or our thousandth, you'll always be
+                    treated like family.
+                  </p>
+                </div>
               </div>
-            </motion.div>
+            </ScrollReveal>
 
-            <motion.div
-              initial={{ opacity: 0, x: 50 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.8 }}
-              viewport={{ once: true }}
-              className="relative h-[500px] rounded-2xl overflow-hidden shadow-2xl"
-            >
-              <Image
-                src="https://images.unsplash.com/photo-1527631746610-bca00a040d60?w=800&auto=format&fit=crop"
-                alt="Our Team"
-                fill
-                className="object-cover"
-              />
-            </motion.div>
+            <ScrollReveal delay={0.2}>
+              <div className="relative h-[500px] rounded-2xl overflow-hidden shadow-2xl">
+                <Image
+                  src="https://images.unsplash.com/photo-1527631746610-bca00a040d60?w=800&auto=format&fit=crop"
+                  alt="Our Team"
+                  fill
+                  className="object-cover"
+                />
+              </div>
+            </ScrollReveal>
           </div>
         </div>
       </section>
@@ -170,44 +169,43 @@ export default function AboutPage() {
       {/* Values Section */}
       <section className="py-16 sm:py-24 bg-muted/30">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            viewport={{ once: true }}
-            className="text-center mb-12 sm:mb-16"
-          >
-            <h2 className="text-3xl sm:text-4xl md:text-5xl font-heading font-bold text-foreground mb-4">
-              Our Values
-            </h2>
-            <p className="text-lg sm:text-xl text-muted-foreground max-w-2xl mx-auto">
-              The principles that guide everything we do
-            </p>
-          </motion.div>
+          <ScrollReveal>
+            <div className="text-center mb-12 sm:mb-16">
+              <TextReveal className="text-3xl sm:text-4xl md:text-5xl font-heading font-bold text-foreground mb-4">
+                Our Values
+              </TextReveal>
+              <p className="text-lg sm:text-xl text-muted-foreground max-w-2xl mx-auto">
+                The principles that guide everything we do
+              </p>
+            </div>
+          </ScrollReveal>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
             {values.map((value, index) => (
-              <motion.div
-                key={value.title}
-                initial={{ opacity: 0, y: 50 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
-                viewport={{ once: true }}
-              >
-                <Card className="h-full text-center hover:shadow-xl transition-shadow duration-300">
-                  <CardContent className="p-6 sm:p-8 space-y-4">
-                    <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-full gradient-primary flex items-center justify-center mx-auto">
-                      <value.icon className="w-8 h-8 sm:w-10 sm:h-10 text-white" />
-                    </div>
-                    <h3 className="text-xl sm:text-2xl font-heading font-semibold text-foreground">
-                      {value.title}
-                    </h3>
-                    <p className="text-muted-foreground text-sm sm:text-base">
-                      {value.description}
-                    </p>
-                  </CardContent>
-                </Card>
-              </motion.div>
+              <ScrollReveal key={value.title} delay={index * 0.1}>
+                <TiltCard
+                  options={{
+                    max: 15,
+                    speed: 400,
+                    glare: true,
+                    "max-glare": 0.3,
+                  }}
+                >
+                  <Card className="h-full text-center hover:shadow-xl transition-shadow duration-300">
+                    <CardContent className="p-6 sm:p-8 space-y-4">
+                      <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-full gradient-primary flex items-center justify-center mx-auto">
+                        <value.icon className="w-8 h-8 sm:w-10 sm:h-10 text-white" />
+                      </div>
+                      <h3 className="text-xl sm:text-2xl font-heading font-semibold text-foreground">
+                        {value.title}
+                      </h3>
+                      <p className="text-muted-foreground text-sm sm:text-base">
+                        {value.description}
+                      </p>
+                    </CardContent>
+                  </Card>
+                </TiltCard>
+              </ScrollReveal>
             ))}
           </div>
         </div>
