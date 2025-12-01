@@ -30,7 +30,7 @@ import { useUIStore } from "@/store/uiStore";
 
 export default function Home() {
   const { language } = useUIStore();
-  const whatsappNumber = "+6289540226153";
+  const whatsappNumber = "+62895402261536";
 
   const heroSlides = [
     {

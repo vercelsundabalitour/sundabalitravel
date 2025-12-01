@@ -41,7 +41,7 @@ export default function DestinationPage() {
   const [destination, setDestination] = useState(
     allDestinations.find((d) => d.slug === slug)
   );
-  const whatsappNumber = "+6289540226153";
+  const whatsappNumber = "+62895402261536";
 
   useEffect(() => {
     const dest = allDestinations.find((d) => d.slug === slug);

@@ -15,7 +15,7 @@ const contactInfo = [
     icon: Phone,
     title: "Phone / WhatsApp",
     content: "+62 895-4022-61536",
-    link: "https://wa.me/6289540226153",
+    link: "https://wa.me/62895402261536",
   },
   {
     icon: Mail,
@@ -43,7 +43,7 @@ export default function ContactPage() {
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const { toast } = useToast();
-  const whatsappNumber = "+6289540226153";
+  const whatsappNumber = "+62895402261536";
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
