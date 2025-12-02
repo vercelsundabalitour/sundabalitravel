@@ -7,7 +7,6 @@ import WhatsAppFAB from "@/components/ui/WhatsAppFAB";
 import LanguageFAB from "@/components/ui/LanguageFAB";
 import CustomCursor from "@/components/ui/CustomCursor";
 import StructuredData from "@/components/StructuredData";
-import { ThemeProvider } from "@/components/providers/ThemeProvider";
 import SmoothScrollProvider from "@/components/providers/SmoothScrollProvider";
 import ClientWrapper from "@/components/providers/ClientWrapper";
 import ScrollProgress from "@/components/ui/ScrollProgress";
@@ -53,27 +52,20 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="en">
       <head>
         <StructuredData />
       </head>
       <body
         className={`${cormorant.variable} ${inter.variable} font-body antialiased`}
       >
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="light"
-          enableSystem
-          disableTransitionOnChange
-        >
-          <ScrollProgress />
-          <CustomCursor />
-          <Navbar />
-          <main className="min-h-screen">{children}</main>
-          <Footer />
-          <WhatsAppFAB />
-          <LanguageFAB />
-        </ThemeProvider>
+        <ScrollProgress />
+        <CustomCursor />
+        <Navbar />
+        <main className="min-h-screen">{children}</main>
+        <Footer />
+        <WhatsAppFAB />
+        <LanguageFAB />
       </body>
     </html>
   );

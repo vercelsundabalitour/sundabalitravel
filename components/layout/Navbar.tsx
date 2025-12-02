@@ -3,8 +3,7 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
-import { Menu, X, Moon, Sun, Phone } from "lucide-react";
-import { useTheme } from "next-themes";
+import { Menu, X, Phone } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { t } from "@/lib/translations";
 import { useUIStore } from "@/store/uiStore";
@@ -19,8 +18,6 @@ const navLinks = [
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
-  const { theme, setTheme } = useTheme();
-  const [mounted, setMounted] = useState(false);
   const { language } = useUIStore();
 
   useEffect(() => {
@@ -28,7 +25,6 @@ export default function Navbar() {
       setScrolled(window.scrollY > 50);
     };
     window.addEventListener("scroll", handleScroll);
-    setMounted(true);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
@@ -92,42 +88,10 @@ export default function Navbar() {
                 {t("nav.bookNow", language)}
               </Button>
             </a>
-
-            {/* Theme Toggle */}
-            {mounted && (
-              <Button
-                variant="ghost"
-                size="icon"
-                onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-                className={`ml-2 ${
-                  scrolled ? "" : "text-white hover:text-white/80"
-                }`}
-              >
-                {theme === "dark" ? (
-                  <Sun className="w-5 h-5" />
-                ) : (
-                  <Moon className="w-5 h-5" />
-                )}
-              </Button>
-            )}
           </div>
 
           {/* Mobile Menu Button */}
           <div className="flex md:hidden items-center space-x-2">
-            {mounted && (
-              <Button
-                variant="ghost"
-                size="icon"
-                onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-                className={scrolled ? "" : "text-white hover:text-white/80"}
-              >
-                {theme === "dark" ? (
-                  <Sun className="w-5 h-5" />
-                ) : (
-                  <Moon className="w-5 h-5" />
-                )}
-              </Button>
-            )}
             <Button
               variant="ghost"
               size="icon"

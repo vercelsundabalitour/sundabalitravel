@@ -84,11 +84,11 @@ export default function DestinationPage() {
   const getDifficultyColor = (difficulty: string) => {
     switch (difficulty) {
       case "Easy":
-        return "bg-green-500/10 text-green-700 dark:text-green-400";
+        return "bg-green-500/10 text-green-700";
       case "Moderate":
-        return "bg-yellow-500/10 text-yellow-700 dark:text-yellow-400";
+        return "bg-yellow-500/10 text-yellow-700";
       case "Challenging":
-        return "bg-red-500/10 text-red-700 dark:text-red-400";
+        return "bg-red-500/10 text-red-700";
       default:
         return "bg-gray-500/10 text-gray-700";
     }

@@ -43,7 +43,7 @@ export default function WhatsAppFAB() {
               initial={{ opacity: 0, x: 20 }}
               animate={{ opacity: 1, x: 0 }}
               exit={{ opacity: 0, x: 20 }}
-              className="absolute right-full mr-4 top-1/2 -translate-y-1/2 bg-white dark:bg-gray-800 text-gray-900 dark:text-white px-4 py-3 rounded-lg shadow-xl whitespace-nowrap"
+              className="absolute right-full mr-4 top-1/2 -translate-y-1/2 bg-white text-gray-900 px-4 py-3 rounded-lg shadow-xl whitespace-nowrap"
             >
               <div className="flex items-center space-x-2">
                 <span className="text-sm font-medium">
@@ -51,14 +51,14 @@ export default function WhatsAppFAB() {
                 </span>
                 <button
                   onClick={() => setShowTooltip(false)}
-                  className="text-gray-500 hover:text-gray-700 dark:hover:text-gray-300"
+                  className="text-gray-500 hover:text-gray-700"
                 >
                   <X className="w-4 h-4" />
                 </button>
               </div>
               {/* Arrow */}
               <div className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-full">
-                <div className="border-8 border-transparent border-l-white dark:border-l-gray-800" />
+                <div className="border-8 border-transparent border-l-white" />
               </div>
             </motion.div>
           )}
