@@ -1,80 +1,101 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { useParams } from "next/navigation";
+import { useState } from "react";
+import { useParams, notFound } from "next/navigation";
 import { motion } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
 import {
   Clock,
-  MapPin,
   Star,
   ArrowLeft,
-  Navigation,
   Calendar,
   Users,
-  Info,
   MessageCircle,
   ChevronRight,
-  Map as MapIcon,
+  Check,
+  X,
+  DollarSign,
+  MapPin,
+  Navigation,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { allDestinations, Destination } from "@/lib/data/destinations";
-import { notFound } from "next/navigation";
+import { tourPackages } from "@/lib/data/tour-packages";
 import {
   MagneticButton,
   ScrollReveal,
   TextReveal,
 } from "@/components/animations/AdvancedAnimations";
 
-interface DestinationPageProps {
-  params: Promise<{
-    slug: string;
-  }>;
-}
-
-export default function DestinationPage() {
+export default function PackageDetailPage() {
   const params = useParams();
   const slug = params.slug as string;
-  const [destination, setDestination] = useState(
-    allDestinations.find((d) => d.slug === slug)
-  );
+  const pkg = tourPackages.find((p) => p.slug === slug);
+  const [selectedImage, setSelectedImage] = useState(0);
+  const [numPeople, setNumPeople] = useState(2);
   const whatsappNumber = "+62895402261536";
 
-  useEffect(() => {
-    const dest = allDestinations.find((d) => d.slug === slug);
-    setDestination(dest);
-    console.log("Loading destination:", slug, dest?.name);
-  }, [slug]);
-
-  if (!destination) {
-    return (
-      <div className="min-h-screen pt-20 flex items-center justify-center">
-        <div className="text-center">
-          <h1 className="text-4xl font-bold mb-4">Destination Not Found</h1>
-          <Link href="/tours">
-            <Button>Back to Tours</Button>
-          </Link>
-        </div>
-      </div>
-    );
+  if (!pkg) {
+    notFound();
   }
 
-  console.log("Destination page loaded:", slug, destination.name);
+  // Calculate pricing based on number of people
+  const calculatePrice = () => {
+    if (!pkg.price.perPerson) {
+      return { total: pkg.price.amount, perPerson: null };
+    }
 
-  // Get related destinations (same region or category)
-  const relatedDestinations = allDestinations
+    if (numPeople === 1 && pkg.price.soloTravelerPrice) {
+      return {
+        total: pkg.price.soloTravelerPrice,
+        perPerson: pkg.price.soloTravelerPrice,
+      };
+    }
+
+    if (pkg.price.minimumPeople && numPeople < pkg.price.minimumPeople) {
+      return {
+        total: null,
+        perPerson: null,
+        error: `Minimum ${pkg.price.minimumPeople} people required`,
+      };
+    }
+
+    // Apply group discount logic
+    if (numPeople === 2) {
+      const total = pkg.price.amount * 2 - 10;
+      return { total, perPerson: total / 2 };
+    }
+
+    if (numPeople >= 3) {
+      const discountedPrice = pkg.price.amount - 10;
+      const total = discountedPrice * numPeople;
+      return { total, perPerson: discountedPrice };
+    }
+
+    return { total: pkg.price.amount * numPeople, perPerson: pkg.price.amount };
+  };
+
+  const pricing = calculatePrice();
+
+  // Get related packages (same region or category)
+  const relatedPackages = tourPackages
     .filter(
-      (d) =>
-        d.id !== destination.id &&
-        (d.region === destination.region || d.category === destination.category)
+      (p) =>
+        p.id !== pkg.id &&
+        (p.region === pkg.region || p.category === pkg.category)
     )
     .slice(0, 3);
 
   const handleBookNow = () => {
-    const message = `Hi! I'm interested in visiting ${destination.name}. Can you help arrange a tour?`;
+    const message = `Hi! I'm interested in the "${
+      pkg.name
+    }" tour package for ${numPeople} ${
+      numPeople === 1 ? "person" : "people"
+    }. ${
+      pricing.total ? `Total: $${pricing.total}` : ""
+    } Can you help arrange this?`;
     const url = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(
       message
     )}`;
@@ -84,13 +105,13 @@ export default function DestinationPage() {
   const getDifficultyColor = (difficulty: string) => {
     switch (difficulty) {
       case "Easy":
-        return "bg-green-500/10 text-green-700";
+        return "bg-green-500/10 text-green-700 border-green-500/20";
       case "Moderate":
-        return "bg-yellow-500/10 text-yellow-700";
+        return "bg-yellow-500/10 text-yellow-700 border-yellow-500/20";
       case "Challenging":
-        return "bg-red-500/10 text-red-700";
+        return "bg-red-500/10 text-red-700 border-red-500/20";
       default:
-        return "bg-gray-500/10 text-gray-700";
+        return "bg-gray-500/10 text-gray-700 border-gray-500/20";
     }
   };
 
@@ -103,42 +124,29 @@ export default function DestinationPage() {
       Culture: "🏛️",
       Nature: "🌿",
       Viewpoint: "📸",
+      Sunrise: "🌄",
+      Wildlife: "🦜",
     };
     return icons[category] || "📍";
   };
 
   return (
     <div className="min-h-screen pt-20">
-      {/* Hero Section with Image */}
-      <section className="relative h-[80vh] min-h-[700px] overflow-hidden">
-        <div className="absolute inset-0">
-          <Image
-            src={destination.image}
-            alt={destination.name}
-            fill
-            className="object-cover brightness-[0.5]"
-            priority
-          />
-          {/* Animated gradient overlay */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 1 }}
-            className="absolute inset-0 bg-gradient-to-t from-background via-background/40 to-transparent"
-          />
-        </div>
-
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8 h-full flex flex-col justify-between py-8 relative z-10">
+      {/* Hero Section with Gallery */}
+      <section className="relative min-h-[85vh] overflow-hidden bg-background">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
+          {/* Back Button */}
           <motion.div
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.6 }}
+            className="mb-6"
           >
             <Link href="/tours">
               <Button
-                variant="ghost"
+                variant="outline"
                 size="lg"
-                className="text-white hover:bg-white/20 backdrop-blur-sm border border-white/20"
+                className="hover:bg-primary/10"
               >
                 <ArrowLeft className="w-5 h-5 mr-2" />
                 Back to Tours
@@ -146,205 +154,300 @@ export default function DestinationPage() {
             </Link>
           </motion.div>
 
-          <motion.div
-            initial={{ opacity: 0, y: 40 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-            className="space-y-6 pb-12"
-          >
-            <motion.div
-              className="flex flex-wrap gap-3"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.4 }}
-            >
-              <Badge className="bg-primary/95 text-white backdrop-blur-md text-base px-4 py-2 shadow-xl">
-                {getCategoryIcon(destination.category)} {destination.category}
-              </Badge>
-              <Badge className="bg-secondary/95 text-primary backdrop-blur-md text-base px-4 py-2 shadow-xl">
-                📍 {destination.region}
-              </Badge>
-              <Badge
-                className={`${getDifficultyColor(
-                  destination.difficulty
-                )} backdrop-blur-md text-base px-4 py-2 shadow-xl`}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12">
+            {/* Left - Image Gallery */}
+            <div className="space-y-4">
+              <motion.div
+                initial={{ opacity: 0, scale: 0.95 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.6 }}
+                className="relative h-[400px] lg:h-[500px] rounded-2xl overflow-hidden shadow-2xl"
               >
-                {destination.difficulty}
-              </Badge>
-              {destination.featured && (
-                <Badge className="bg-yellow-500/95 text-white backdrop-blur-md text-base px-4 py-2 shadow-xl">
-                  <Star className="w-4 h-4 mr-1 fill-current" /> Featured
-                </Badge>
-              )}
-            </motion.div>
+                <Image
+                  src={pkg.gallery[selectedImage]}
+                  alt={`${pkg.name} - Image ${selectedImage + 1}`}
+                  fill
+                  className="object-cover"
+                  priority
+                />
+                <div className="absolute inset-0 bg-linear-to-t from-black/50 to-transparent" />
 
-            <TextReveal className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-heading font-bold text-white drop-shadow-2xl">
-              {destination.name}
-            </TextReveal>
+                {/* Image Counter */}
+                <div className="absolute top-4 right-4 bg-black/60 backdrop-blur-sm text-white px-3 py-1 rounded-full text-sm">
+                  {selectedImage + 1} / {pkg.gallery.length}
+                </div>
+              </motion.div>
 
-            <motion.p
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.6 }}
-              className="text-2xl sm:text-3xl md:text-4xl text-white/95 font-light italic drop-shadow-lg"
-            >
-              {destination.nameIndonesian}
-            </motion.p>
-
-            <motion.p
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.8 }}
-              className="text-lg sm:text-xl text-white/90 max-w-3xl leading-relaxed drop-shadow-lg"
-            >
-              {destination.description}
-            </motion.p>
-          </motion.div>
-        </div>
-
-        {/* Scroll Indicator */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 1.2 }}
-          className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10"
-        >
-          <motion.div
-            animate={{ y: [0, 12, 0] }}
-            transition={{ repeat: Infinity, duration: 2, ease: "easeInOut" }}
-            className="w-8 h-12 border-2 border-white/50 rounded-full flex justify-center p-2"
-          >
-            <motion.div className="w-1.5 h-3 bg-white/70 rounded-full" />
-          </motion.div>
-        </motion.div>
-      </section>
-
-      {/* Quick Info Bar */}
-      <section className="border-b border-border bg-card/50 backdrop-blur-sm sticky top-20 z-40">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-4">
-          <div className="flex flex-wrap gap-6 justify-center md:justify-start text-sm">
-            <div className="flex items-center gap-2">
-              <Clock className="w-5 h-5 text-primary" />
-              <span className="font-medium">{destination.duration}</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <Calendar className="w-5 h-5 text-primary" />
-              <span className="font-medium">{destination.bestTimeToVisit}</span>
-            </div>
-            {destination.price && (
-              <div className="flex items-center gap-2">
-                <span className="text-2xl">💰</span>
-                <span className="font-semibold text-primary">
-                  {destination.price}
-                </span>
+              {/* Thumbnail Gallery */}
+              <div className="grid grid-cols-4 gap-3">
+                {pkg.gallery.map((image, index) => (
+                  <motion.button
+                    key={index}
+                    onClick={() => setSelectedImage(index)}
+                    className={`relative h-24 rounded-lg overflow-hidden cursor-pointer transition-all ${
+                      selectedImage === index
+                        ? "ring-4 ring-primary scale-105"
+                        : "hover:ring-2 ring-primary/50"
+                    }`}
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                  >
+                    <Image
+                      src={image}
+                      alt={`Thumbnail ${index + 1}`}
+                      fill
+                      className="object-cover"
+                    />
+                  </motion.button>
+                ))}
               </div>
-            )}
+            </div>
+
+            {/* Right - Package Info */}
+            <div className="space-y-6">
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.2 }}
+                className="space-y-4"
+              >
+                {/* Badges */}
+                <div className="flex flex-wrap gap-2">
+                  <Badge className="bg-primary text-white text-sm px-3 py-1">
+                    {getCategoryIcon(pkg.category)} {pkg.category}
+                  </Badge>
+                  <Badge className="bg-secondary text-primary text-sm px-3 py-1">
+                    📍 {pkg.region}
+                  </Badge>
+                  <Badge
+                    className={`${getDifficultyColor(
+                      pkg.difficulty
+                    )} text-sm px-3 py-1`}
+                  >
+                    {pkg.difficulty}
+                  </Badge>
+                  {pkg.featured && (
+                    <Badge className="bg-yellow-500 text-white text-sm px-3 py-1">
+                      <Star className="w-3 h-3 mr-1 fill-current" /> Featured
+                    </Badge>
+                  )}
+                </div>
+
+                {/* Title */}
+                <div>
+                  <h1 className="text-4xl sm:text-5xl font-heading font-bold text-foreground mb-2">
+                    {pkg.name}
+                  </h1>
+                  <p className="text-xl text-muted-foreground italic">
+                    {pkg.nameIndonesian}
+                  </p>
+                </div>
+
+                {/* Description */}
+                <p className="text-lg text-muted-foreground leading-relaxed">
+                  {pkg.description}
+                </p>
+                <p className="text-base text-muted-foreground leading-relaxed border-l-4 border-primary/30 pl-4">
+                  {pkg.descriptionIndonesian}
+                </p>
+
+                {/* Quick Info */}
+                <div className="grid grid-cols-2 gap-4 pt-4">
+                  <div className="flex items-center gap-2">
+                    <Clock className="w-5 h-5 text-primary" />
+                    <div>
+                      <p className="text-xs text-muted-foreground">Duration</p>
+                      <p className="font-semibold">{pkg.duration}</p>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <Calendar className="w-5 h-5 text-primary" />
+                    <div>
+                      <p className="text-xs text-muted-foreground">Best Time</p>
+                      <p className="font-semibold text-sm">
+                        {pkg.bestTimeToVisit}
+                      </p>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <MapPin className="w-5 h-5 text-primary" />
+                    <div>
+                      <p className="text-xs text-muted-foreground">
+                        Destinations
+                      </p>
+                      <p className="font-semibold">
+                        {pkg.destinations.length} Places
+                      </p>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <DollarSign className="w-5 h-5 text-primary" />
+                    <div>
+                      <p className="text-xs text-muted-foreground">From</p>
+                      <p className="font-semibold text-primary">
+                        ${pkg.price.amount}/person
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </motion.div>
+            </div>
           </div>
         </div>
       </section>
 
       {/* Main Content */}
-      <section className="py-12 md:py-20 bg-background">
+      <section className="py-12 md:py-16 bg-muted/30">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 lg:gap-12">
-            {/* Left Column - Main Info */}
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            {/* Left Column - Details */}
             <div className="lg:col-span-2 space-y-8">
-              {/* Description */}
-              <ScrollReveal>
-                <Card>
-                  <CardContent className="p-6 md:p-8 space-y-4">
-                    <div className="flex items-center gap-3 mb-4">
-                      <Info className="w-6 h-6 text-primary" />
-                      <h2 className="text-2xl font-heading font-bold">
-                        About This Destination
-                      </h2>
-                    </div>
-                    <p className="text-lg text-muted-foreground leading-relaxed">
-                      {destination.descriptionIndonesian}
-                    </p>
-                    <p className="text-base text-muted-foreground leading-relaxed">
-                      {destination.description}
-                    </p>
-                  </CardContent>
-                </Card>
-              </ScrollReveal>
-
-              {/* Highlights */}
+              {/* Destinations Included */}
               <ScrollReveal>
                 <Card>
                   <CardContent className="p-6 md:p-8">
                     <div className="flex items-center gap-3 mb-6">
-                      <Star className="w-6 h-6 text-secondary" />
-                      <h2 className="text-2xl font-heading font-bold">
-                        Highlights
+                      <MapPin className="w-6 h-6 text-primary" />
+                      <h2 className="text-3xl font-heading font-bold">
+                        Destinations Included
                       </h2>
                     </div>
-                    <ul className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                      {destination.highlights.map((highlight, index) => (
-                        <motion.li
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                      {pkg.destinations.map((dest, index) => (
+                        <motion.div
                           key={index}
                           initial={{ opacity: 0, x: -20 }}
                           whileInView={{ opacity: 1, x: 0 }}
                           viewport={{ once: true }}
                           transition={{ delay: index * 0.1 }}
-                          className="flex items-start gap-3 p-3 rounded-lg hover:bg-muted/50 transition-colors"
+                          className="flex items-start gap-3 p-4 rounded-lg bg-muted/50 hover:bg-muted transition-colors"
                         >
-                          <span className="text-2xl flex-shrink-0">✨</span>
-                          <span className="text-muted-foreground">
-                            {highlight}
+                          <span className="text-2xl shrink-0">
+                            {index + 1}.
                           </span>
-                        </motion.li>
+                          <span className="font-medium text-foreground">
+                            {dest}
+                          </span>
+                        </motion.div>
                       ))}
-                    </ul>
+                    </div>
                   </CardContent>
                 </Card>
               </ScrollReveal>
 
-              {/* Tips & Best Time */}
+              {/* Highlights */}
+              {pkg.highlights && pkg.highlights.length > 0 && (
+                <ScrollReveal>
+                  <Card>
+                    <CardContent className="p-6 md:p-8">
+                      <div className="flex items-center gap-3 mb-6">
+                        <Star className="w-6 h-6 text-secondary fill-secondary" />
+                        <h2 className="text-3xl font-heading font-bold">
+                          Tour Highlights
+                        </h2>
+                      </div>
+                      <ul className="space-y-3">
+                        {pkg.highlights.map((highlight, index) => (
+                          <motion.li
+                            key={index}
+                            initial={{ opacity: 0, x: -20 }}
+                            whileInView={{ opacity: 1, x: 0 }}
+                            viewport={{ once: true }}
+                            transition={{ delay: index * 0.1 }}
+                            className="flex items-start gap-3"
+                          >
+                            <span className="text-2xl shrink-0">✨</span>
+                            <span className="text-lg text-muted-foreground">
+                              {highlight}
+                            </span>
+                          </motion.li>
+                        ))}
+                      </ul>
+                    </CardContent>
+                  </Card>
+                </ScrollReveal>
+              )}
+
+              {/* What's Included / Excluded */}
               <ScrollReveal>
-                <Card className="bg-gradient-to-br from-primary/5 to-secondary/5 border-primary/20">
-                  <CardContent className="p-6 md:p-8 space-y-4">
-                    <div className="flex items-center gap-3 mb-4">
-                      <MapIcon className="w-6 h-6 text-primary" />
-                      <h2 className="text-2xl font-heading font-bold">
-                        Visitor Tips
-                      </h2>
+                <Card>
+                  <CardContent className="p-6 md:p-8">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                      {/* Included */}
+                      <div>
+                        <div className="flex items-center gap-2 mb-4">
+                          <Check className="w-6 h-6 text-green-600" />
+                          <h3 className="text-2xl font-heading font-bold">
+                            What&apos;s Included
+                          </h3>
+                        </div>
+                        <ul className="space-y-2">
+                          {pkg.included.map((item, index) => (
+                            <li
+                              key={index}
+                              className="flex items-start gap-2 text-muted-foreground"
+                            >
+                              <Check className="w-5 h-5 text-green-600 shrink-0 mt-0.5" />
+                              <span>{item}</span>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+
+                      {/* Excluded */}
+                      {pkg.excluded && pkg.excluded.length > 0 && (
+                        <div>
+                          <div className="flex items-center gap-2 mb-4">
+                            <X className="w-6 h-6 text-red-600" />
+                            <h3 className="text-2xl font-heading font-bold">
+                              What&apos;s Excluded
+                            </h3>
+                          </div>
+                          <ul className="space-y-2">
+                            {pkg.excluded.map((item, index) => (
+                              <li
+                                key={index}
+                                className="flex items-start gap-2 text-muted-foreground"
+                              >
+                                <X className="w-5 h-5 text-red-600 shrink-0 mt-0.5" />
+                                <span>{item}</span>
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+                      )}
                     </div>
-                    <div className="space-y-3">
-                      <div className="flex items-start gap-3">
-                        <span className="text-xl">⏰</span>
-                        <div>
-                          <p className="font-semibold text-foreground">
-                            Best Time to Visit
-                          </p>
-                          <p className="text-muted-foreground">
-                            {destination.bestTimeToVisit}
-                          </p>
-                        </div>
-                      </div>
-                      <div className="flex items-start gap-3">
-                        <span className="text-xl">⚡</span>
-                        <div>
-                          <p className="font-semibold text-foreground">
-                            Difficulty Level
-                          </p>
-                          <p className="text-muted-foreground">
-                            {destination.difficulty} - Suitable for most
-                            visitors
-                          </p>
-                        </div>
-                      </div>
-                      <div className="flex items-start gap-3">
-                        <span className="text-xl">🕐</span>
-                        <div>
-                          <p className="font-semibold text-foreground">
-                            Recommended Duration
-                          </p>
-                          <p className="text-muted-foreground">
-                            {destination.duration}
-                          </p>
-                        </div>
-                      </div>
+                  </CardContent>
+                </Card>
+              </ScrollReveal>
+
+              {/* Important Information */}
+              <ScrollReveal>
+                <Card className="bg-primary/5 border-primary/20">
+                  <CardContent className="p-6 md:p-8">
+                    <h3 className="text-2xl font-heading font-bold mb-4">
+                      Important Information
+                    </h3>
+                    <div className="space-y-3 text-muted-foreground">
+                      <p>
+                        • All times are approximate and may vary based on
+                        traffic and weather conditions
+                      </p>
+                      <p>
+                        • Hotel pickup and drop-off included from main tourist
+                        areas
+                      </p>
+                      <p>• Please wear comfortable clothing and shoes</p>
+                      <p>• Bring sunscreen, hat, and swimwear if applicable</p>
+                      <p>
+                        • This tour requires a minimum of{" "}
+                        {pkg.price.minimumPeople || 1}{" "}
+                        {pkg.price.minimumPeople === 1 ? "person" : "people"}
+                      </p>
+                      <p>
+                        • Cancellation policy: Full refund if canceled 48 hours
+                        in advance
+                      </p>
                     </div>
                   </CardContent>
                 </Card>
@@ -355,31 +458,82 @@ export default function DestinationPage() {
             <div className="lg:col-span-1">
               <div className="sticky top-32 space-y-6">
                 <ScrollReveal>
-                  <Card className="border-2 border-primary/20">
+                  <Card className="border-2 border-primary/20 shadow-xl">
                     <CardContent className="p-6 space-y-6">
                       <div className="text-center">
                         <h3 className="text-2xl font-heading font-bold mb-2">
-                          Ready to Visit?
+                          Book This Tour
                         </h3>
-                        <p className="text-muted-foreground">
-                          Let us arrange your perfect trip
+                        <p className="text-sm text-muted-foreground">
+                          Select number of people
                         </p>
                       </div>
 
-                      {destination.price && (
-                        <div className="text-center p-4 bg-primary/5 rounded-lg">
-                          <p className="text-sm text-muted-foreground mb-1">
-                            Starting from
-                          </p>
-                          <p className="text-3xl font-bold text-primary">
-                            {destination.price}
-                          </p>
+                      {/* People Selector */}
+                      <div className="space-y-3">
+                        <div className="flex items-center justify-between">
+                          <span className="font-medium">Number of People</span>
+                          <div className="flex items-center gap-3">
+                            <Button
+                              onClick={() =>
+                                setNumPeople(Math.max(1, numPeople - 1))
+                              }
+                              variant="outline"
+                              size="sm"
+                              className="h-8 w-8 p-0"
+                            >
+                              -
+                            </Button>
+                            <span className="font-bold text-lg w-8 text-center">
+                              {numPeople}
+                            </span>
+                            <Button
+                              onClick={() => setNumPeople(numPeople + 1)}
+                              variant="outline"
+                              size="sm"
+                              className="h-8 w-8 p-0"
+                            >
+                              +
+                            </Button>
+                          </div>
                         </div>
-                      )}
+                      </div>
+
+                      {/* Pricing Display */}
+                      <div className="p-4 bg-primary/5 rounded-lg space-y-2">
+                        {pricing.error ? (
+                          <p className="text-center text-red-600 font-medium">
+                            {pricing.error}
+                          </p>
+                        ) : (
+                          <>
+                            {pricing.perPerson && (
+                              <div className="flex justify-between text-sm text-muted-foreground">
+                                <span>Price per person</span>
+                                <span className="font-semibold">
+                                  ${pricing.perPerson}
+                                </span>
+                              </div>
+                            )}
+                            <div className="flex justify-between items-center pt-2 border-t border-border">
+                              <span className="font-semibold">Total Price</span>
+                              <span className="text-3xl font-bold text-primary">
+                                ${pricing.total}
+                              </span>
+                            </div>
+                            {pkg.price.priceNote && (
+                              <p className="text-xs text-muted-foreground text-center pt-2">
+                                {pkg.price.priceNote}
+                              </p>
+                            )}
+                          </>
+                        )}
+                      </div>
 
                       <MagneticButton>
                         <Button
                           onClick={handleBookNow}
+                          disabled={!!pricing.error}
                           className="w-full gradient-primary text-white text-lg py-6 group"
                           size="lg"
                         >
@@ -392,7 +546,7 @@ export default function DestinationPage() {
                         <div className="flex items-center gap-3 text-sm">
                           <Users className="w-5 h-5 text-primary" />
                           <span className="text-muted-foreground">
-                            Private or group tours available
+                            Private or group tours
                           </span>
                         </div>
                         <div className="flex items-center gap-3 text-sm">
@@ -402,15 +556,15 @@ export default function DestinationPage() {
                           </span>
                         </div>
                         <div className="flex items-center gap-3 text-sm">
-                          <span className="text-lg">🎯</span>
+                          <Check className="w-5 h-5 text-primary" />
                           <span className="text-muted-foreground">
-                            Customizable itinerary
+                            Professional guide
                           </span>
                         </div>
                         <div className="flex items-center gap-3 text-sm">
-                          <span className="text-lg">💬</span>
+                          <Check className="w-5 h-5 text-primary" />
                           <span className="text-muted-foreground">
-                            English-speaking guide
+                            Free cancellation 48h
                           </span>
                         </div>
                       </div>
@@ -422,13 +576,17 @@ export default function DestinationPage() {
                 <ScrollReveal>
                   <Card>
                     <CardContent className="p-6 space-y-3">
-                      <h4 className="font-semibold mb-3">
-                        Need Help Planning?
-                      </h4>
+                      <h4 className="font-semibold mb-3">Need Help?</h4>
                       <div className="space-y-2 text-sm text-muted-foreground">
-                        <p>📧 sundabalitour@gmail.com</p>
-                        <p>📱 +62 895-4022-61536</p>
-                        <p>🕐 Available 8 AM - 8 PM (Bali Time)</p>
+                        <p className="flex items-center gap-2">
+                          <span>📧</span> sundabalitour@gmail.com
+                        </p>
+                        <p className="flex items-center gap-2">
+                          <span>📱</span> +62 895-4022-61536
+                        </p>
+                        <p className="flex items-center gap-2">
+                          <span>🕐</span> 8 AM - 8 PM (Bali Time)
+                        </p>
                       </div>
                     </CardContent>
                   </Card>
@@ -439,9 +597,9 @@ export default function DestinationPage() {
         </div>
       </section>
 
-      {/* Related Destinations */}
-      {relatedDestinations.length > 0 && (
-        <section className="py-12 md:py-20 bg-muted/30">
+      {/* Related Packages */}
+      {relatedPackages.length > 0 && (
+        <section className="py-12 md:py-16 bg-background">
           <div className="container mx-auto px-4 sm:px-6 lg:px-8">
             <ScrollReveal>
               <div className="text-center mb-12">
@@ -449,13 +607,13 @@ export default function DestinationPage() {
                   You Might Also Like
                 </h2>
                 <p className="text-lg text-muted-foreground">
-                  More amazing destinations in {destination.region}
+                  More amazing packages in {pkg.region}
                 </p>
               </div>
             </ScrollReveal>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              {relatedDestinations.map((related, index) => (
+              {relatedPackages.map((related) => (
                 <ScrollReveal key={related.id}>
                   <Link href={`/tours/${related.slug}`}>
                     <Card className="group hover:shadow-xl transition-all duration-300 cursor-pointer h-full overflow-hidden">
@@ -474,16 +632,18 @@ export default function DestinationPage() {
                         </div>
                       </div>
                       <CardContent className="p-5 space-y-3">
-                        <h3 className="text-xl font-heading font-bold group-hover:text-primary transition-colors line-clamp-1">
+                        <h3 className="text-xl font-heading font-bold group-hover:text-primary transition-colors line-clamp-2">
                           {related.name}
                         </h3>
                         <p className="text-sm text-muted-foreground line-clamp-2">
                           {related.description}
                         </p>
                         <div className="flex items-center justify-between pt-2">
-                          <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                            <Clock className="w-4 h-4" />
-                            <span>{related.duration}</span>
+                          <div className="text-sm text-muted-foreground">
+                            <span className="font-bold text-primary text-lg">
+                              ${related.price.amount}
+                            </span>
+                            {related.price.perPerson && " /person"}
                           </div>
                           <ChevronRight className="w-5 h-5 text-primary group-hover:translate-x-1 transition-transform" />
                         </div>

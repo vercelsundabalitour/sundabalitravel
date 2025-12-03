@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
@@ -19,7 +19,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
-import { allDestinations } from "@/lib/data/destinations";
+import { tourPackages } from "@/lib/data/tour-packages";
 import {
   MagneticButton,
   ScrollReveal,
@@ -35,9 +35,18 @@ const categories = [
   "Culture",
   "Nature",
   "Viewpoint",
+  "Sunrise",
+  "Wildlife",
 ];
-const regions = ["All", "South Bali", "North Bali"];
-const ITEMS_PER_PAGE = 8;
+const regions = [
+  "All",
+  "South Bali",
+  "North Bali",
+  "East Bali",
+  "Central Bali",
+  "West Bali",
+];
+const ITEMS_PER_PAGE = 4;
 
 export default function ToursPage() {
   const [selectedCategory, setSelectedCategory] = useState("All");
@@ -48,36 +57,29 @@ export default function ToursPage() {
   const [isLoading, setIsLoading] = useState(false);
   const whatsappNumber = "+62895402261536";
 
-  // Filter destinations
-  const filteredDestinations = allDestinations.filter((dest) => {
+  // Filter packages
+  const filteredPackages = tourPackages.filter((pkg) => {
     const matchesCategory =
-      selectedCategory === "All" || dest.category === selectedCategory;
+      selectedCategory === "All" || pkg.category === selectedCategory;
     const matchesRegion =
-      selectedRegion === "All" || dest.region === selectedRegion;
+      selectedRegion === "All" || pkg.region === selectedRegion;
     const matchesSearch =
-      dest.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      dest.nameIndonesian.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      dest.description.toLowerCase().includes(searchQuery.toLowerCase());
+      pkg.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      pkg.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      pkg.destinations.some((dest) =>
+        dest.toLowerCase().includes(searchQuery.toLowerCase())
+      );
     return matchesCategory && matchesRegion && matchesSearch;
   });
 
   // Pagination calculations
-  const totalPages = Math.ceil(filteredDestinations.length / ITEMS_PER_PAGE);
-  const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
+  const totalPages = Math.ceil(filteredPackages.length / ITEMS_PER_PAGE);
+
+  // Auto-adjust current page if it exceeds total pages (happens when filters change)
+  const adjustedCurrentPage = Math.min(currentPage, Math.max(1, totalPages));
+  const startIndex = (adjustedCurrentPage - 1) * ITEMS_PER_PAGE;
   const endIndex = startIndex + ITEMS_PER_PAGE;
-  const paginatedDestinations = filteredDestinations.slice(
-    startIndex,
-    endIndex
-  );
-
-  // Handle filter changes - reset page
-  const handleFilterChange = () => {
-    setCurrentPage(1);
-  };
-
-  useEffect(() => {
-    handleFilterChange();
-  }, [selectedCategory, selectedRegion, searchQuery]);
+  const paginatedPackages = filteredPackages.slice(startIndex, endIndex);
 
   // Scroll to top when page changes with loading simulation
   const handlePageChange = (page: number) => {
@@ -85,8 +87,7 @@ export default function ToursPage() {
       setIsLoading(true);
       setCurrentPage(page);
       window.scrollTo({ top: 0, behavior: "smooth" });
-      const timer = setTimeout(() => setIsLoading(false), 300);
-      return () => clearTimeout(timer);
+      setTimeout(() => setIsLoading(false), 300);
     }
   };
 
@@ -108,8 +109,8 @@ export default function ToursPage() {
       pages.push(1);
 
       // Calculate range around current page
-      const start = Math.max(2, currentPage - 1);
-      const end = Math.min(totalPages - 1, currentPage + 1);
+      const start = Math.max(2, adjustedCurrentPage - 1);
+      const end = Math.min(totalPages - 1, adjustedCurrentPage + 1);
 
       // Add ellipsis after first page if needed
       if (start > 2) {
@@ -163,6 +164,8 @@ export default function ToursPage() {
       Culture: "🏛️",
       Nature: "🌿",
       Viewpoint: "📸",
+      Sunrise: "🌄",
+      Wildlife: "🦜",
     };
     return icons[category] || "📍";
   };
@@ -170,7 +173,7 @@ export default function ToursPage() {
   return (
     <div className="min-h-screen pt-20">
       {/* Hero Section */}
-      <section className="relative h-[70vh] min-h-[600px] flex items-center justify-center overflow-hidden bg-gradient-to-br from-primary/10 via-background to-secondary/10">
+      <section className="relative h-[70vh] min-h-[600px] flex items-center justify-center overflow-hidden bg-linear-to-br from-primary/10 via-background to-secondary/10">
         <div className="absolute inset-0 z-0">
           <Image
             src="https://images.unsplash.com/photo-1537996194471-e657df975ab4?w=1920&auto=format&fit=crop&q=80"
@@ -189,20 +192,21 @@ export default function ToursPage() {
             className="space-y-4"
           >
             <TextReveal className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-heading font-bold text-white">
-              Discover Bali&apos;s Wonders
+              Explore Bali Tour Packages
             </TextReveal>
             <p className="text-lg sm:text-xl md:text-2xl text-white/90 max-w-3xl mx-auto">
-              50+ carefully curated destinations across South and North Bali
+              Curated multi-destination tours covering all of Bali&apos;s
+              highlights
             </p>
             <div className="flex flex-wrap gap-3 justify-center mt-6">
               <Badge className="bg-primary/90 backdrop-blur-sm text-white text-base px-4 py-2">
-                🏖️ Pristine Beaches
+                🎯 All-Inclusive Packages
               </Badge>
               <Badge className="bg-secondary/90 backdrop-blur-sm text-white  text-base px-4 py-2">
-                💧 Stunning Waterfalls
+                💰 Group Discounts
               </Badge>
               <Badge className="bg-white/20 backdrop-blur-sm text-white text-base px-4 py-2">
-                🌅 Sunset Views
+                🚗 Private Transport
               </Badge>
             </div>
           </motion.div>
@@ -210,7 +214,7 @@ export default function ToursPage() {
       </section>
 
       {/* Search & Filters */}
-      <section className="py-4 border-b border-border sticky top-20 z-40 backdrop-blur-md bg-background/95 shadow-sm">
+      <section className="py-4 border-b border-border sticky top-20 z-40 bg-white shadow-sm">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           {/* Search Bar and Filter Toggle */}
           <div className="flex flex-col sm:flex-row gap-3 items-center">
@@ -224,7 +228,7 @@ export default function ToursPage() {
                 <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
                 <Input
                   type="text"
-                  placeholder="Search destinations..."
+                  placeholder="Search tour packages..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   className="pl-10 pr-4 py-5 text-base w-full"
@@ -309,7 +313,13 @@ export default function ToursPage() {
                         ? "🗺️"
                         : region === "South Bali"
                         ? "🏖️"
-                        : "⛰️"}{" "}
+                        : region === "North Bali"
+                        ? "⛰️"
+                        : region === "East Bali"
+                        ? "🌄"
+                        : region === "Central Bali"
+                        ? "🌾"
+                        : "🌴"}{" "}
                       {region}
                     </Button>
                   ))}
@@ -342,7 +352,7 @@ export default function ToursPage() {
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <AnimatePresence mode="wait">
             <motion.div
-              key={currentPage}
+              key={adjustedCurrentPage}
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -20 }}
@@ -369,22 +379,19 @@ export default function ToursPage() {
                     </CardContent>
                   </Card>
                 ))
-              ) : paginatedDestinations.length > 0 ? (
-                paginatedDestinations.map((destination) => (
-                  <ScrollReveal key={destination.id}>
-                    <Link
-                      href={`/tours/${destination.slug}`}
-                      className="block h-full"
-                    >
+              ) : paginatedPackages.length > 0 ? (
+                paginatedPackages.map((pkg) => (
+                  <ScrollReveal key={pkg.id}>
+                    <Link href={`/tours/${pkg.slug}`} className="block h-full">
                       <Card className="overflow-hidden h-full hover:shadow-2xl transition-all duration-500 group border hover:border-primary/50 bg-card cursor-pointer">
-                        <div className="relative h-64 overflow-hidden">
+                        <div className="relative h-80 overflow-hidden">
                           <Image
-                            src={destination.image}
-                            alt={destination.name}
+                            src={pkg.image}
+                            alt={pkg.name}
                             fill
                             className="object-cover group-hover:scale-110 transition-transform duration-700 ease-out"
                           />
-                          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
+                          <div className="absolute inset-0 bg-linear-to-t from-black/90 via-black/30 to-transparent" />
 
                           {/* Hover Overlay */}
                           <div className="absolute inset-0 bg-primary/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
@@ -396,11 +403,10 @@ export default function ToursPage() {
                               whileTap={{ scale: 0.95 }}
                             >
                               <Badge className="bg-primary text-white border-0 shadow-lg">
-                                {getCategoryIcon(destination.category)}{" "}
-                                {destination.category}
+                                {getCategoryIcon(pkg.category)} {pkg.category}
                               </Badge>
                             </motion.div>
-                            {destination.featured && (
+                            {pkg.featured && (
                               <motion.div
                                 whileHover={{ scale: 1.05 }}
                                 whileTap={{ scale: 0.95 }}
@@ -416,7 +422,7 @@ export default function ToursPage() {
                           {/* Region Badge */}
                           <div className="absolute top-4 left-4">
                             <Badge className="bg-black text-white border-white/30 shadow-lg">
-                              📍 {destination.region}
+                              📍 {pkg.region}
                             </Badge>
                           </div>
 
@@ -424,47 +430,75 @@ export default function ToursPage() {
                           <div className="absolute bottom-4 left-4">
                             <Badge
                               className={`${getDifficultyColor(
-                                destination.difficulty
+                                pkg.difficulty
                               )} border shadow-lg`}
                             >
-                              {destination.difficulty}
+                              {pkg.difficulty}
                             </Badge>
                           </div>
                         </div>
 
-                        <CardContent className="p-6 space-y-4">
+                        <CardContent className="p-5 space-y-3">
                           <div>
-                            <h3 className="text-2xl font-heading font-bold text-foreground group-hover:text-primary transition-colors line-clamp-1 mb-1">
-                              {destination.name}
+                            <h3 className="text-xl font-heading font-bold text-foreground group-hover:text-primary transition-colors line-clamp-1 mb-1">
+                              {pkg.name}
                             </h3>
-                            <p className="text-sm text-muted-foreground italic line-clamp-1">
-                              {destination.nameIndonesian}
+                            <p className="text-xs text-muted-foreground font-medium uppercase tracking-wider">
+                              Tour Package • {pkg.destinations.length}{" "}
+                              Destinations
                             </p>
                           </div>
 
-                          <p className="text-sm text-muted-foreground line-clamp-3 min-h-[60px] leading-relaxed">
-                            {destination.description}
+                          <p className="text-sm text-muted-foreground line-clamp-3 leading-relaxed">
+                            {pkg.description}
                           </p>
 
-                          <div className="flex items-center justify-between text-sm text-muted-foreground pt-3 border-t border-border/50">
+                          {/* Destinations List */}
+                          <div className="space-y-1.5">
+                            <p className="text-xs font-semibold text-foreground uppercase tracking-wider">
+                              Includes:
+                            </p>
+                            <ul className="text-xs text-muted-foreground space-y-1">
+                              {pkg.destinations.slice(0, 3).map((dest, idx) => (
+                                <li
+                                  key={idx}
+                                  className="flex items-start gap-1.5"
+                                >
+                                  <span className="text-primary mt-0.5">•</span>
+                                  <span className="line-clamp-1">{dest}</span>
+                                </li>
+                              ))}
+                              {pkg.destinations.length > 3 && (
+                                <li className="text-primary font-medium">
+                                  +{pkg.destinations.length - 3} more
+                                  destinations
+                                </li>
+                              )}
+                            </ul>
+                          </div>
+
+                          <div className="flex items-center justify-between text-sm text-muted-foreground pt-2 border-t border-border/50">
                             <div className="flex items-center gap-2">
                               <Clock className="w-4 h-4 text-primary" />
                               <span className="line-clamp-1 font-medium">
-                                {destination.duration}
+                                {pkg.duration}
                               </span>
                             </div>
-                            {destination.price && (
-                              <span className="font-bold text-primary whitespace-nowrap ml-2 text-base">
-                                {destination.price}
+                            <div className="text-right">
+                              <span className="font-bold text-primary whitespace-nowrap text-lg">
+                                ${pkg.price.amount}
                               </span>
-                            )}
+                              <p className="text-[10px] text-muted-foreground">
+                                {pkg.price.perPerson ? "/person" : "total"}
+                              </p>
+                            </div>
                           </div>
 
-                          <div className="flex gap-3 pt-2">
+                          <div className="flex gap-2 pt-2">
                             <Button
                               variant="outline"
                               size="default"
-                              className="flex-1 group-hover:border-primary group-hover:text-primary transition-all text-sm font-semibold !rounded-full"
+                              className="flex-1 group-hover:border-primary group-hover:text-primary transition-all text-sm font-semibold rounded-full!"
                               onClick={(e) => e.preventDefault()}
                             >
                               View Details
@@ -472,11 +506,11 @@ export default function ToursPage() {
                             </Button>
                             <Button
                               size="default"
-                              className="gradient-primary text-white text-sm font-semibold shadow-lg hover:shadow-xl transition-all px-6 !rounded-full"
+                              className="gradient-primary text-white text-sm font-semibold shadow-lg hover:shadow-xl transition-all px-6 rounded-full!"
                               onClick={(e) => {
                                 e.preventDefault();
                                 e.stopPropagation();
-                                handleBookNow(destination.name);
+                                handleBookNow(pkg.name);
                               }}
                             >
                               Book Now
@@ -495,7 +529,7 @@ export default function ToursPage() {
                 >
                   <Compass className="w-16 h-16 mx-auto mb-4 text-muted-foreground" />
                   <p className="text-xl text-muted-foreground mb-2">
-                    No destinations found
+                    No tour packages found
                   </p>
                   <p className="text-sm text-muted-foreground">
                     Try adjusting your filters or search query
@@ -506,7 +540,7 @@ export default function ToursPage() {
           </AnimatePresence>
 
           {/* Pagination Controls */}
-          {!isLoading && paginatedDestinations.length > 0 && totalPages > 1 && (
+          {!isLoading && paginatedPackages.length > 0 && totalPages > 1 && (
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -522,13 +556,13 @@ export default function ToursPage() {
                   </span>{" "}
                   to{" "}
                   <span className="font-semibold text-foreground">
-                    {Math.min(endIndex, filteredDestinations.length)}
+                    {Math.min(endIndex, filteredPackages.length)}
                   </span>{" "}
                   of{" "}
                   <span className="font-semibold text-foreground">
-                    {filteredDestinations.length}
+                    {filteredPackages.length}
                   </span>{" "}
-                  destinations
+                  tour packages
                 </p>
               </div>
 
@@ -537,7 +571,7 @@ export default function ToursPage() {
                 {/* First Page */}
                 <Button
                   onClick={() => goToPage(1)}
-                  disabled={currentPage === 1}
+                  disabled={adjustedCurrentPage === 1}
                   variant="outline"
                   size="sm"
                   className="h-9 w-9 p-0"
@@ -547,8 +581,8 @@ export default function ToursPage() {
 
                 {/* Previous Page */}
                 <Button
-                  onClick={() => goToPage(currentPage - 1)}
-                  disabled={currentPage === 1}
+                  onClick={() => goToPage(adjustedCurrentPage - 1)}
+                  disabled={adjustedCurrentPage === 1}
                   variant="outline"
                   size="sm"
                   className="h-9 w-9 p-0"
@@ -569,10 +603,12 @@ export default function ToursPage() {
                     <Button
                       key={page}
                       onClick={() => goToPage(page as number)}
-                      variant={currentPage === page ? "default" : "outline"}
+                      variant={
+                        adjustedCurrentPage === page ? "default" : "outline"
+                      }
                       size="sm"
                       className={`h-9 w-9 p-0 ${
-                        currentPage === page
+                        adjustedCurrentPage === page
                           ? "gradient-primary text-white"
                           : ""
                       }`}
@@ -584,8 +620,8 @@ export default function ToursPage() {
 
                 {/* Next Page */}
                 <Button
-                  onClick={() => goToPage(currentPage + 1)}
-                  disabled={currentPage === totalPages}
+                  onClick={() => goToPage(adjustedCurrentPage + 1)}
+                  disabled={adjustedCurrentPage === totalPages}
                   variant="outline"
                   size="sm"
                   className="h-9 w-9 p-0"
@@ -596,7 +632,7 @@ export default function ToursPage() {
                 {/* Last Page */}
                 <Button
                   onClick={() => goToPage(totalPages)}
-                  disabled={currentPage === totalPages}
+                  disabled={adjustedCurrentPage === totalPages}
                   variant="outline"
                   size="sm"
                   className="h-9 w-9 p-0"
@@ -609,7 +645,7 @@ export default function ToursPage() {
               <div className="flex items-center justify-center gap-3 md:hidden">
                 <span className="text-sm text-muted-foreground">Page</span>
                 <select
-                  value={currentPage}
+                  value={adjustedCurrentPage}
                   onChange={(e) => goToPage(Number(e.target.value))}
                   className="px-3 py-1 rounded-md border border-border bg-background text-foreground text-sm"
                 >
@@ -631,7 +667,7 @@ export default function ToursPage() {
       </section>
 
       {/* CTA Section */}
-      <section className="py-16 bg-gradient-to-br from-primary/5 via-secondary/5 to-background">
+      <section className="py-16 bg-linear-to-br from-primary/5 via-secondary/5 to-background">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <ScrollReveal>
             <Card className="border-2 border-primary/20 bg-card/50 backdrop-blur-sm">
