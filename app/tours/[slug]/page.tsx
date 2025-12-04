@@ -44,15 +44,18 @@ export default function PackageDetailPage() {
   const getPricingTiers = () => {
     const priceNote = pkg.price.priceNote || "";
     const tiers = [];
-    
+
     const onePersonMatch = priceNote.match(/1\s*person:\s*\$(\d+)/i);
     const twoPeopleMatch = priceNote.match(/2\s*people:\s*\$(\d+)/i);
     const threePlusMatch = priceNote.match(/3\+\s*people:\s*\$(\d+)/i);
-    
-    if (onePersonMatch) tiers.push({ label: "1 Person", price: parseInt(onePersonMatch[1]) });
-    if (twoPeopleMatch) tiers.push({ label: "2 People", price: parseInt(twoPeopleMatch[1]) });
-    if (threePlusMatch) tiers.push({ label: "3+ People", price: parseInt(threePlusMatch[1]) });
-    
+
+    if (onePersonMatch)
+      tiers.push({ label: "1 Person", price: parseInt(onePersonMatch[1]) });
+    if (twoPeopleMatch)
+      tiers.push({ label: "2 People", price: parseInt(twoPeopleMatch[1]) });
+    if (threePlusMatch)
+      tiers.push({ label: "3+ People", price: parseInt(threePlusMatch[1]) });
+
     return tiers;
   };
 
@@ -455,11 +458,15 @@ export default function PackageDetailPage() {
                         ))}
                       </div>
 
-                      {pkg.price.priceNote && pkg.price.priceNote.includes("optional") && (
-                        <p className="text-xs text-muted-foreground text-center pt-2 border-t border-border">
-                          Note: {pkg.price.priceNote.split('.').find(s => s.includes("optional"))}
-                        </p>
-                      )}
+                      {pkg.price.priceNote &&
+                        pkg.price.priceNote.includes("optional") && (
+                          <p className="text-xs text-muted-foreground text-center pt-2 border-t border-border">
+                            Note:{" "}
+                            {pkg.price.priceNote
+                              .split(".")
+                              .find((s) => s.includes("optional"))}
+                          </p>
+                        )}
 
                       <MagneticButton>
                         <Button
