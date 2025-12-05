@@ -73,7 +73,7 @@ export const metadata: Metadata = {
       "Discover authentic Bali experiences with Sunda Bali Tour. Professional private drivers, customizable itineraries, and unforgettable adventures across Bali's most beautiful destinations.",
     images: [
       {
-        url: "/logo.jpeg",
+        url: "https://sundabalitour.com/logo.jpeg",
         width: 1200,
         height: 630,
         alt: "Sunda Bali Tour - Your Trusted Bali Tour Operator",
@@ -85,7 +85,7 @@ export const metadata: Metadata = {
     title: "Sunda Bali Tour - Private Driver & Tours in Bali",
     description:
       "Experience authentic Bali with professional private drivers and custom tour packages",
-    images: ["/logo.jpeg"],
+    images: ["https://sundabalitour.com/logo.jpeg"],
   },
   robots: {
     index: true,
