@@ -1,14 +1,10 @@
 "use client";
 
-import { useState } from "react";
 import { motion } from "framer-motion";
 import Image from "next/image";
-import { Mail, Phone, MapPin, MessageCircle, Send } from "lucide-react";
+import { Mail, Phone, MapPin, MessageCircle } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
-import { useToast } from "@/hooks/use-toast";
 
 const contactInfo = [
   {
@@ -32,68 +28,7 @@ const contactInfo = [
 ];
 
 export default function ContactPage() {
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    phone: "",
-    date: "",
-    guests: "",
-    tourInterest: "",
-    message: "",
-  });
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const { toast } = useToast();
   const whatsappNumber = "+62895402261536";
-
-  const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
-    });
-  };
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setIsSubmitting(true);
-
-    // Simulate form submission
-    await new Promise((resolve) => setTimeout(resolve, 1500));
-
-    // Create WhatsApp message
-    const message = `
-New Tour Inquiry from Website:
-Name: ${formData.name}
-Email: ${formData.email}
-Phone: ${formData.phone}
-Preferred Date: ${formData.date}
-Number of Guests: ${formData.guests}
-Tour Interest: ${formData.tourInterest}
-Message: ${formData.message}
-    `.trim();
-
-    const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(
-      message
-    )}`;
-    window.open(whatsappUrl, "_blank");
-
-    toast({
-      title: "Message Sent!",
-      description: "We'll get back to you as soon as possible.",
-    });
-
-    setFormData({
-      name: "",
-      email: "",
-      phone: "",
-      date: "",
-      guests: "",
-      tourInterest: "",
-      message: "",
-    });
-    setIsSubmitting(false);
-  };
 
   return (
     <div className="min-h-screen pt-20">
@@ -160,11 +95,11 @@ Message: ${formData.message}
         </div>
       </section>
 
-      {/* Contact Form & Map */}
+      {/* WhatsApp Contact & Map */}
       <section className="py-16 bg-muted/30">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid lg:grid-cols-2 gap-12">
-            {/* Contact Form */}
+            {/* WhatsApp Contact */}
             <motion.div
               initial={{ opacity: 0, x: -50 }}
               whileInView={{ opacity: 1, x: 0 }}
@@ -174,157 +109,35 @@ Message: ${formData.message}
               <Card>
                 <CardContent className="p-6 sm:p-8">
                   <h2 className="text-2xl sm:text-3xl font-heading font-bold text-foreground mb-6">
-                    Send Us a Message
+                    Get in Touch
                   </h2>
 
-                  <form onSubmit={handleSubmit} className="space-y-4">
-                    <div>
-                      <label
-                        htmlFor="name"
-                        className="block text-sm font-medium mb-2"
-                      >
-                        Your Name *
-                      </label>
-                      <Input
-                        id="name"
-                        name="name"
-                        type="text"
-                        required
-                        value={formData.name}
-                        onChange={handleChange}
-                        placeholder="John Doe"
-                      />
-                    </div>
-
-                    <div className="grid sm:grid-cols-2 gap-4">
-                      <div>
-                        <label
-                          htmlFor="email"
-                          className="block text-sm font-medium mb-2"
-                        >
-                          Email *
-                        </label>
-                        <Input
-                          id="email"
-                          name="email"
-                          type="email"
-                          required
-                          value={formData.email}
-                          onChange={handleChange}
-                          placeholder="john@example.com"
-                        />
-                      </div>
-
-                      <div>
-                        <label
-                          htmlFor="phone"
-                          className="block text-sm font-medium mb-2"
-                        >
-                          Phone Number
-                        </label>
-                        <Input
-                          id="phone"
-                          name="phone"
-                          type="tel"
-                          value={formData.phone}
-                          onChange={handleChange}
-                          placeholder="+1 234 567 8900"
-                        />
-                      </div>
-                    </div>
-
-                    <div className="grid sm:grid-cols-2 gap-4">
-                      <div>
-                        <label
-                          htmlFor="date"
-                          className="block text-sm font-medium mb-2"
-                        >
-                          Preferred Date
-                        </label>
-                        <Input
-                          id="date"
-                          name="date"
-                          type="date"
-                          value={formData.date}
-                          onChange={handleChange}
-                        />
-                      </div>
-
-                      <div>
-                        <label
-                          htmlFor="guests"
-                          className="block text-sm font-medium mb-2"
-                        >
-                          Number of Guests
-                        </label>
-                        <Input
-                          id="guests"
-                          name="guests"
-                          type="number"
-                          min="1"
-                          value={formData.guests}
-                          onChange={handleChange}
-                          placeholder="2"
-                        />
-                      </div>
-                    </div>
-
-                    <div>
-                      <label
-                        htmlFor="tourInterest"
-                        className="block text-sm font-medium mb-2"
-                      >
-                        Tour Interest
-                      </label>
-                      <Input
-                        id="tourInterest"
-                        name="tourInterest"
-                        type="text"
-                        value={formData.tourInterest}
-                        onChange={handleChange}
-                        placeholder="e.g., Ubud Tour, Beach Hopping"
-                      />
-                    </div>
-
-                    <div>
-                      <label
-                        htmlFor="message"
-                        className="block text-sm font-medium mb-2"
-                      >
-                        Your Message *
-                      </label>
-                      <Textarea
-                        id="message"
-                        name="message"
-                        required
-                        value={formData.message}
-                        onChange={handleChange}
-                        placeholder="Tell us about your dream Bali experience..."
-                        rows={5}
-                      />
-                    </div>
-
-                    <Button
-                      type="submit"
-                      disabled={isSubmitting}
-                      className="w-full gradient-primary text-white"
-                      size="lg"
-                    >
-                      {isSubmitting ? (
-                        "Sending..."
-                      ) : (
-                        <>
-                          <Send className="w-5 h-5 mr-2" />
-                          Send Message
-                        </>
-                      )}
-                    </Button>
-                  </form>
-
-                  <div className="mt-6 pt-6 border-t border-border">
-                    <p className="text-sm text-muted-foreground text-center mb-4">
-                      Or chat with us directly
+                  <div className="space-y-6">
+                    <p className="text-muted-foreground">
+                      Ready to start planning your Bali adventure? Chat with us
+                      directly on WhatsApp for instant responses and
+                      personalized tour recommendations.
                     </p>
+
+                    <div className="bg-muted/50 rounded-lg p-6 space-y-4">
+                      <div className="flex items-start gap-4">
+                        <div className="w-12 h-12 rounded-full bg-[#25D366] flex items-center justify-center flex-shrink-0">
+                          <MessageCircle className="w-6 h-6 text-white" />
+                        </div>
+                        <div>
+                          <h3 className="font-semibold text-lg mb-2">
+                            Why WhatsApp?
+                          </h3>
+                          <ul className="space-y-2 text-sm text-muted-foreground">
+                            <li>✓ Instant responses during business hours</li>
+                            <li>✓ Share photos and discuss your preferences</li>
+                            <li>✓ Easy booking and payment coordination</li>
+                            <li>✓ Get real-time updates during your tour</li>
+                          </ul>
+                        </div>
+                      </div>
+                    </div>
+
                     <a
                       href={`https://wa.me/${whatsappNumber}`}
                       target="_blank"
@@ -333,14 +146,45 @@ Message: ${formData.message}
                     >
                       <Button
                         type="button"
-                        variant="outline"
-                        className="w-full border-[#25D366] text-[#25D366] hover:bg-[#25D366] hover:text-white"
+                        className="w-full bg-[#25D366] hover:bg-[#20BD5A] text-white"
                         size="lg"
                       >
                         <MessageCircle className="w-5 h-5 mr-2" />
-                        Chat on WhatsApp
+                        Chat on WhatsApp Now
                       </Button>
                     </a>
+
+                    <div className="pt-6 border-t border-border space-y-4">
+                      <h3 className="font-semibold">Other Contact Options</h3>
+                      
+                      <div className="space-y-3">
+                        <a
+                          href={`tel:${whatsappNumber}`}
+                          className="flex items-center gap-3 p-3 rounded-lg hover:bg-muted/50 transition-colors"
+                        >
+                          <Phone className="w-5 h-5 text-primary" />
+                          <div>
+                            <p className="font-medium">Call Us</p>
+                            <p className="text-sm text-muted-foreground">
+                              +62 895-4022-61536
+                            </p>
+                          </div>
+                        </a>
+
+                        <a
+                          href="mailto:sundabalitour@gmail.com"
+                          className="flex items-center gap-3 p-3 rounded-lg hover:bg-muted/50 transition-colors"
+                        >
+                          <Mail className="w-5 h-5 text-primary" />
+                          <div>
+                            <p className="font-medium">Email Us</p>
+                            <p className="text-sm text-muted-foreground">
+                              sundabalitour@gmail.com
+                            </p>
+                          </div>
+                        </a>
+                      </div>
+                    </div>
                   </div>
                 </CardContent>
               </Card>

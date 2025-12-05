@@ -9,6 +9,9 @@ import {
   Heart,
   ChevronLeft,
   ChevronRight,
+  Plus,
+  Minus,
+  MessageCircle,
 } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
@@ -66,6 +69,60 @@ export default function Home() {
   ];
 
   const [currentSlide, setCurrentSlide] = useState(0);
+  const [openFaqIndex, setOpenFaqIndex] = useState<number | null>(null);
+
+  const faqs = [
+    {
+      question: "What's included in the tour price?",
+      answer:
+        "All our tour packages include private air-conditioned vehicle, English-speaking driver/guide, fuel, parking fees, entrance tickets to attractions, and bottled water. Some packages also include meals - check the specific tour details for complete inclusions.",
+    },
+    {
+      question: "How do I book a tour?",
+      answer:
+        "Booking is easy! Simply click the 'Book on WhatsApp' button on any tour page or contact us directly via WhatsApp at +62 895-4022-61536. Our team will guide you through the booking process and answer any questions you have.",
+    },
+    {
+      question: "What is your cancellation policy?",
+      answer:
+        "We offer free cancellation up to 24 hours before the tour start time. Cancellations made less than 24 hours before departure may be subject to charges. Please contact us directly for special circumstances.",
+    },
+    {
+      question: "Do you provide hotel pickup?",
+      answer:
+        "Yes! We provide complimentary hotel pickup and drop-off for all tours within the main tourist areas of Bali (Seminyak, Kuta, Sanur, Ubud, Nusa Dua). For areas outside these zones, a small additional fee may apply.",
+    },
+    {
+      question: "Can I customize my tour itinerary?",
+      answer:
+        "Absolutely! We specialize in creating personalized experiences. You can adjust the itinerary, add or remove destinations, and even create a completely custom tour. Just let us know your preferences when booking.",
+    },
+    {
+      question: "What should I bring on the tour?",
+      answer:
+        "We recommend bringing sunscreen, comfortable walking shoes, a hat, sunglasses, camera, and some cash for personal expenses. For temple visits, bring a sarong or scarf (or we can provide one). Don't forget your sense of adventure!",
+    },
+    {
+      question: "Are the tours suitable for children and elderly?",
+      answer:
+        "Yes! Most of our tours are family-friendly and can be adjusted to accommodate children and elderly guests. We can modify the pace and activities to suit your group's needs. Please inform us of any special requirements when booking.",
+    },
+    {
+      question: "What languages do your guides speak?",
+      answer:
+        "All our guides are fluent in English and Indonesian. We can also arrange guides who speak other languages such as Mandarin, Japanese, or Korean with advance notice.",
+    },
+    {
+      question: "How long are the tours?",
+      answer:
+        "Tour durations vary by package. Most full-day tours run approximately 8-10 hours, starting around 8-9 AM and returning by 5-6 PM. Half-day tours are typically 4-5 hours. Exact timing is flexible and can be adjusted to your preference.",
+    },
+    {
+      question: "What payment methods do you accept?",
+      answer:
+        "We accept cash (Indonesian Rupiah or USD), bank transfers to Indonesian accounts, and digital payments. Payment can be made in advance or to your driver at the start of the tour. We'll provide full payment details when you book.",
+    },
+  ];
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -877,6 +934,137 @@ export default function Home() {
                 </div>
               </motion.div>
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* FAQ Section */}
+      <section className="py-16 sm:py-24 bg-background">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="max-w-4xl mx-auto">
+            {/* Section Header */}
+            <div className="text-center mb-12 sm:mb-16">
+              <motion.div
+                initial={{ opacity: 0, scale: 0.9 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6 }}
+                className="inline-block mb-4"
+              >
+                <span className="px-4 py-2 bg-primary/10 text-primary rounded-full text-sm font-semibold tracking-wider uppercase">
+                  FAQ
+                </span>
+              </motion.div>
+
+              <motion.h2
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6 }}
+                className="text-3xl sm:text-4xl md:text-5xl font-heading font-bold text-foreground mb-4"
+              >
+                Frequently Asked Questions
+              </motion.h2>
+
+              <motion.p
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6, delay: 0.1 }}
+                className="text-lg text-muted-foreground"
+              >
+                Everything you need to know about booking your Bali adventure
+              </motion.p>
+            </div>
+
+            {/* FAQ Accordions */}
+            <div className="space-y-4">
+              {faqs.map((faq, index) => (
+                <motion.div
+                  key={index}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.5, delay: index * 0.05 }}
+                >
+                  <div
+                    className={`border border-border rounded-lg overflow-hidden transition-all duration-300 ${
+                      openFaqIndex === index
+                        ? "bg-primary/5 border-primary/30 shadow-lg"
+                        : "bg-card hover:border-primary/20 hover:shadow-md"
+                    }`}
+                  >
+                    <button
+                      onClick={() =>
+                        setOpenFaqIndex(openFaqIndex === index ? null : index)
+                      }
+                      className="w-full px-6 py-5 flex items-center justify-between text-left transition-colors"
+                    >
+                      <span className="text-base sm:text-lg font-semibold text-foreground pr-4">
+                        {faq.question}
+                      </span>
+                      <div
+                        className={`flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center transition-all duration-300 ${
+                          openFaqIndex === index
+                            ? "bg-primary text-white rotate-180"
+                            : "bg-primary/10 text-primary"
+                        }`}
+                      >
+                        {openFaqIndex === index ? (
+                          <Minus className="w-5 h-5" />
+                        ) : (
+                          <Plus className="w-5 h-5" />
+                        )}
+                      </div>
+                    </button>
+
+                    <AnimatePresence>
+                      {openFaqIndex === index && (
+                        <motion.div
+                          initial={{ height: 0, opacity: 0 }}
+                          animate={{ height: "auto", opacity: 1 }}
+                          exit={{ height: 0, opacity: 0 }}
+                          transition={{ duration: 0.3, ease: "easeInOut" }}
+                        >
+                          <div className="px-6 pb-5 text-muted-foreground leading-relaxed">
+                            {faq.answer}
+                          </div>
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+
+            {/* Contact CTA */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, delay: 0.3 }}
+              className="mt-12 text-center p-8 bg-gradient-to-br from-primary/10 to-secondary/10 rounded-2xl border border-primary/20"
+            >
+              <h3 className="text-xl sm:text-2xl font-heading font-bold text-foreground mb-3">
+                Still have questions?
+              </h3>
+              <p className="text-muted-foreground mb-6">
+                Our friendly team is here to help you plan the perfect trip
+              </p>
+              <a
+                href={`https://wa.me/${whatsappNumber}`}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <Button
+                  size="lg"
+                  className="bg-[#25D366] hover:bg-[#20BD5A] text-white"
+                >
+                  <MessageCircle className="w-5 h-5 mr-2" />
+                  Chat with Us on WhatsApp
+                </Button>
+              </a>
+            </motion.div>
           </div>
         </div>
       </section>
