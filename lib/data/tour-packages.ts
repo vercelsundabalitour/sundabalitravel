@@ -520,6 +520,62 @@ export const tourPackages: TourPackage[] = [
       "Walk through butterfly garden",
     ],
   },
+  {
+    id: "nusa-penida-west-snorkeling",
+    slug: "nusa-penida-west-snorkeling",
+    name: "Nusa Penida West Snorkeling",
+    nameIndonesian: "Snorkeling Nusa Penida Barat",
+    region: "South Bali",
+    category: "Beach",
+    description:
+      "Discover the underwater paradise of Nusa Penida's west coast with crystal clear waters, vibrant coral reefs, and diverse marine life. Perfect for snorkeling enthusiasts!",
+    descriptionIndonesian:
+      "Temukan surga bawah laut di pantai barat Nusa Penida dengan air jernih, terumbu karang yang indah, dan kehidupan laut yang beragam. Sempurna untuk pecinta snorkeling!",
+    featured: true,
+    image: "/Nusa Peninda/1.jpeg",
+    gallery: [
+      "/Nusa Peninda/1.jpeg",
+      "/Nusa Peninda/2.png",
+      "/Nusa Peninda/3.jpeg",
+      "/South Bali/Pantai di South Bali.jpg",
+    ],
+    destinations: [
+      "Manta Point (Snorkeling with Manta Rays)",
+      "Gamat Bay (Crystal clear waters)",
+      "Crystal Bay (Colorful coral reefs)",
+      "Fast boat to Nusa Penida",
+    ],
+    price: {
+      amount: 95,
+      perPerson: false,
+      priceNote: "1 person: $95, 2 people: $155, 3+ people: $200",
+    },
+    included: [
+      "Fast boat transfers to/from Nusa Penida",
+      "Snorkeling equipment (mask, fins, life jacket)",
+      "Professional snorkeling guide",
+      "Underwater camera documentation",
+      "Towels and locker",
+      "Lunch and refreshments",
+      "Insurance coverage",
+    ],
+    excluded: [
+      "Hotel pickup/drop-off (can be arranged)",
+      "Personal expenses",
+      "Tips for guide and crew",
+    ],
+    duration: "Full day (8-9 hours)",
+    difficulty: "Moderate",
+    bestTimeToVisit: "April to October (dry season)",
+    highlights: [
+      "Swim with majestic Manta Rays at Manta Point",
+      "Explore vibrant coral gardens and tropical fish",
+      "Crystal clear waters with 20-30m visibility",
+      "Visit 3 best snorkeling spots in Nusa Penida",
+      "Professional underwater photography included",
+      "Small group for personalized experience",
+    ],
+  },
 ];
 
 // Helper functions
