@@ -560,10 +560,7 @@ export const tourPackages: TourPackage[] = [
       "Lunch and refreshments",
       "Insurance coverage",
     ],
-    excluded: [
-      "Personal expenses",
-      "Tips for guide and crew",
-    ],
+    excluded: ["Personal expenses", "Tips for guide and crew"],
     duration: "Full day (8-9 hours)",
     difficulty: "Moderate",
     bestTimeToVisit: "April to October (dry season)",
