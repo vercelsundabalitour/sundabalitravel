@@ -47,14 +47,17 @@ export default function PackageDetailPage() {
 
     const onePersonMatch = priceNote.match(/1\s*person:\s*\$(\d+)/i);
     const twoPeopleMatch = priceNote.match(/2\s*people:\s*\$(\d+)/i);
-    const threePlusMatch = priceNote.match(/3\+\s*people:\s*\$(\d+)/i);
+    const threePeopleMatch = priceNote.match(/3\s*people:\s*\$(\d+)/i);
+    const fourPlusMatch = priceNote.match(/4\+?\s*people:\s*\$(\d+)/i);
 
     if (onePersonMatch)
       tiers.push({ label: "1 Person", price: parseInt(onePersonMatch[1]) });
     if (twoPeopleMatch)
       tiers.push({ label: "2 People", price: parseInt(twoPeopleMatch[1]) });
-    if (threePlusMatch)
-      tiers.push({ label: "3+ People", price: parseInt(threePlusMatch[1]) });
+    if (threePeopleMatch)
+      tiers.push({ label: "3 People", price: parseInt(threePeopleMatch[1]) });
+    if (fourPlusMatch)
+      tiers.push({ label: "4+ People", price: parseInt(fourPlusMatch[1]) });
 
     return tiers;
   };
