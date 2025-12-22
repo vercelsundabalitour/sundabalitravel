@@ -12,6 +12,7 @@ import { useUIStore } from "@/store/uiStore";
 const navLinks = [
   { href: "/", label: "nav.home" },
   { href: "/tours", label: "nav.tours" },
+  { href: "/car-rental", label: "nav.carRental" },
   { href: "/about", label: "nav.about" },
   { href: "/contact", label: "nav.contact" },
 ];

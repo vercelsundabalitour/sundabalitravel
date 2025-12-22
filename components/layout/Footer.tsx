@@ -8,6 +8,8 @@ const footerLinks = {
   company: [
     { label: "About Us", href: "/about" },
     { label: "Tour Packages", href: "/tours" },
+    { label: "Car Rental", href: "/car-rental" },
+    { label: "Booking", href: "/booking" },
     { label: "Contact", href: "/contact" },
   ],
   legal: [

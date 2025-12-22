@@ -420,8 +420,8 @@ export default function PackageDetailPage() {
                       <p>• Bring sunscreen, hat, and swimwear if applicable</p>
                       <p>• Available for solo travelers and groups</p>
                       <p>
-                        • Cancellation policy: Full refund if canceled 48 hours
-                        in advance
+                        • Cancellation policy: Rp 200,000 per person
+                        cancellation charge applies
                       </p>
                     </div>
                   </CardContent>
@@ -482,6 +482,16 @@ export default function PackageDetailPage() {
                         </Button>
                       </MagneticButton>
 
+                      <Link href="/booking">
+                        <Button
+                          variant="outline"
+                          className="w-full border-2 border-primary text-primary hover:bg-orange-500 hover:border-orange-500 hover:text-white text-base py-5 transition-all duration-300"
+                          size="lg"
+                        >
+                          View Payment Details
+                        </Button>
+                      </Link>
+
                       <div className="space-y-3 pt-4 border-t border-border">
                         <div className="flex items-center gap-3 text-sm">
                           <Users className="w-5 h-5 text-primary" />
@@ -504,7 +514,7 @@ export default function PackageDetailPage() {
                         <div className="flex items-center gap-3 text-sm">
                           <Check className="w-5 h-5 text-primary" />
                           <span className="text-muted-foreground">
-                            Free cancellation 48h
+                            Cancellation: Rp 200k/person
                           </span>
                         </div>
                       </div>

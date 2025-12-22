@@ -3,6 +3,7 @@ export const translations = {
     nav: {
       home: "Home",
       tours: "Tour Packages",
+      carRental: "Car Rental",
       about: "About Us",
       contact: "Contact",
       bookNow: "Book Now",
@@ -60,6 +61,7 @@ export const translations = {
     nav: {
       home: "Beranda",
       tours: "Paket Wisata",
+      carRental: "Sewa Mobil",
       about: "Tentang Kami",
       contact: "Kontak",
       bookNow: "Pesan Sekarang",

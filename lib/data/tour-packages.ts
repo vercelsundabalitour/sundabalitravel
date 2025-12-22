@@ -80,6 +80,7 @@ export const tourPackages: TourPackage[] = [
       "Personal expenses",
       "Kecak dance (not included)",
       "Paragliding (not included)",
+      "Watersports (not included)",
     ],
     duration: "8-10 hours",
     difficulty: "Easy",
@@ -447,6 +448,7 @@ export const tourPackages: TourPackage[] = [
     image: "/Visit Kintamani/Jeep Sunrise 1.jpg",
     gallery: [
       "/Visit Kintamani/Jeep Sunrise 1.jpg",
+      "/Visit Kintamani/new jeep.jpeg",
       "/Visit Kintamani/Coffee plantation 2.jpg",
       "/Visit Kintamani/Coffee planatation 1.jpg",
       "/Visit Kintamani/Visit Cafe Kintamani.jpg",

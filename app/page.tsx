@@ -85,7 +85,7 @@ export default function Home() {
     {
       question: "What is your cancellation policy?",
       answer:
-        "We offer free cancellation up to 24 hours before the tour start time. Cancellations made less than 24 hours before departure may be subject to charges. Please contact us directly for special circumstances.",
+        "Cancellations are subject to a charge of Rp 200,000 per person. Please notify us as early as possible if you need to cancel your booking. Contact us directly for special circumstances or rescheduling options.",
     },
     {
       question: "Do you provide hotel pickup?",
@@ -120,7 +120,7 @@ export default function Home() {
     {
       question: "What payment methods do you accept?",
       answer:
-        "We accept cash (Indonesian Rupiah or USD), bank transfers to Indonesian accounts, and digital payments. Payment can be made in advance or to your driver at the start of the tour. We'll provide full payment details when you book.",
+        "We accept bank transfer to Bank Central Asia (BCA) or Wise transfer. Payment terms: 30% deposit to secure your booking, and full payment (remaining 70%) when our driver picks you up at your hotel. Visit our booking page for complete payment details.",
     },
   ];
 

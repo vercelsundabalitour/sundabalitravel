@@ -28,6 +28,20 @@ export default function sitemap(): MetadataRoute.Sitemap {
       images: [`${baseUrl}/logo.jpeg`],
     },
     {
+      url: `${baseUrl}/car-rental`,
+      lastModified: new Date(),
+      changeFrequency: "monthly" as const,
+      priority: 0.8,
+      images: [`${baseUrl}/logo.jpeg`],
+    },
+    {
+      url: `${baseUrl}/booking`,
+      lastModified: new Date(),
+      changeFrequency: "monthly" as const,
+      priority: 0.9,
+      images: [`${baseUrl}/logo.jpeg`],
+    },
+    {
       url: `${baseUrl}/contact`,
       lastModified: new Date(),
       changeFrequency: "monthly" as const,

@@ -3,6 +3,7 @@ export const baseTranslations: Record<string, string> = {
   // Navbar
   "nav.home": "Home",
   "nav.tours": "Tour Packages",
+  "nav.carRental": "Car Rental",
   "nav.about": "About Us",
   "nav.contact": "Contact",
   "nav.bookNow": "Book Now",
