@@ -14,7 +14,7 @@ export default function BookingPage() {
   const [formData, setFormData] = useState({
     name: "",
     surname: "",
-    amountOfPeople: 1,
+    amountOfPeople: "",
     from: "",
     to: "",
     email: "",
@@ -25,7 +25,8 @@ export default function BookingPage() {
   const whatsappNumber = "6285724336853";
 
   useEffect(() => {
-    setTotalAmount(basePrice * formData.amountOfPeople);
+    const numPeople = parseInt(formData.amountOfPeople as any) || 0;
+    setTotalAmount(basePrice * numPeople);
   }, [basePrice, formData.amountOfPeople]);
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -57,7 +58,7 @@ export default function BookingPage() {
     const { name, value } = e.target;
     setFormData({
       ...formData,
-      [name]: name === "amountOfPeople" ? parseInt(value) || 1 : value,
+      [name]: value,
     });
   };
 
@@ -139,7 +140,7 @@ export default function BookingPage() {
                   required
                   min="1"
                   className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                  placeholder="1"
+                  placeholder="Enter number of people"
                 />
               </div>
 
@@ -207,7 +208,7 @@ export default function BookingPage() {
                     Base Price:
                   </span>
                   <span className="text-xl font-bold text-gray-900">
-                    ${basePrice} × {formData.amountOfPeople}
+                    ${basePrice} × {formData.amountOfPeople || 0}
                   </span>
                 </div>
                 <div className="flex justify-between items-center pt-3 border-t-2 border-blue-200">
