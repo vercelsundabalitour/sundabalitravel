@@ -34,35 +34,19 @@ export default function PackageDetailPage() {
   const slug = params.slug as string;
   const pkg = tourPackages.find((p) => p.slug === slug);
   const [selectedImage, setSelectedImage] = useState(0);
-  const whatsappNumber = "+6285724336853";
 
   if (!pkg) {
     notFound();
   }
 
-  // Extract pricing tiers from priceNote
-  const getPricingTiers = () => {
-    const priceNote = pkg.price.priceNote || "";
-    const tiers = [];
-
-    const onePersonMatch = priceNote.match(/1\s*person:\s*\$(\d+)/i);
-    const twoPeopleMatch = priceNote.match(/2\s*people:\s*\$(\d+)/i);
-    const threePeopleMatch = priceNote.match(/3\s*people:\s*\$(\d+)/i);
-    const fourPlusMatch = priceNote.match(/4\+?\s*people:\s*\$(\d+)/i);
-
-    if (onePersonMatch)
-      tiers.push({ label: "1 Person", price: parseInt(onePersonMatch[1]) });
-    if (twoPeopleMatch)
-      tiers.push({ label: "2 People", price: parseInt(twoPeopleMatch[1]) });
-    if (threePeopleMatch)
-      tiers.push({ label: "3 People", price: parseInt(threePeopleMatch[1]) });
-    if (fourPlusMatch)
-      tiers.push({ label: "4+ People", price: parseInt(fourPlusMatch[1]) });
-
-    return tiers;
+  const handleBookNow = () => {
+    const queryParams = new URLSearchParams({
+      tourName: pkg.name,
+      tourId: pkg.id,
+      basePrice: pkg.price.amount.toString(),
+    });
+    window.location.href = `/booking?${queryParams.toString()}`;
   };
-
-  const pricingTiers = getPricingTiers();
 
   // Get related packages (same region or category)
   const relatedPackages = tourPackages
@@ -72,14 +56,6 @@ export default function PackageDetailPage() {
         (p.region === pkg.region || p.category === pkg.category)
     )
     .slice(0, 3);
-
-  const handleBookNow = () => {
-    const message = `Hi! I'm interested in the "${pkg.name}" tour package. Can you help arrange this?`;
-    const url = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(
-      message
-    )}`;
-    window.open(url, "_blank");
-  };
 
   const getDifficultyColor = (difficulty: string) => {
     switch (difficulty) {
@@ -440,36 +416,17 @@ export default function PackageDetailPage() {
                           Tour Pricing
                         </h3>
                         <p className="text-sm text-muted-foreground">
-                          Fixed prices per group size
+                          Starting from
                         </p>
-                      </div>
-
-                      {/* Pricing List */}
-                      <div className="space-y-3">
-                        {pricingTiers.map((tier, index) => (
-                          <div
-                            key={index}
-                            className="flex items-center justify-between p-4 bg-primary/5 rounded-lg border border-primary/10"
-                          >
-                            <span className="font-semibold text-foreground">
-                              {tier.label}
-                            </span>
-                            <span className="text-2xl font-bold text-primary">
-                              ${tier.price}
-                            </span>
-                          </div>
-                        ))}
-                      </div>
-
-                      {pkg.price.priceNote &&
-                        pkg.price.priceNote.includes("optional") && (
-                          <p className="text-xs text-muted-foreground text-center pt-2 border-t border-border">
-                            Note:{" "}
-                            {pkg.price.priceNote
-                              .split(".")
-                              .find((s) => s.includes("optional"))}
+                        <div className="mt-4">
+                          <span className="text-5xl font-bold text-primary">
+                            ${pkg.price.amount}
+                          </span>
+                          <p className="text-sm text-muted-foreground mt-2">
+                            per person
                           </p>
-                        )}
+                        </div>
+                      </div>
 
                       <MagneticButton>
                         <Button
@@ -478,19 +435,9 @@ export default function PackageDetailPage() {
                           size="lg"
                         >
                           <MessageCircle className="w-5 h-5 mr-2 group-hover:scale-110 transition-transform" />
-                          Book via WhatsApp
+                          Book Now
                         </Button>
                       </MagneticButton>
-
-                      <Link href="/booking">
-                        <Button
-                          variant="outline"
-                          className="w-full border-2 border-primary text-primary hover:bg-orange-500 hover:border-orange-500 hover:text-white text-base py-5 transition-all duration-300"
-                          size="lg"
-                        >
-                          View Payment Details
-                        </Button>
-                      </Link>
 
                       <div className="space-y-3 pt-4 border-t border-border">
                         <div className="flex items-center gap-3 text-sm">

@@ -38,7 +38,7 @@ export default function CarRentalPage() {
       name: "Toyota Hi-Ace",
       price: "1,200,000",
       passengers: 14,
-      image: "/cars/hiace.png",
+      image: "/cars/hiace.jpg",
       features: [
         "Spacious for up to 14 passengers",
         "Air conditioned",

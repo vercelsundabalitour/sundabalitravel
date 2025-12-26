@@ -67,7 +67,7 @@ export const tourPackages: TourPackage[] = [
       amount: 80,
       perPerson: false,
       priceNote:
-        "1 person: $80, 2 people: $140, 3 people: $200, 4+ people: $260",
+        "1 person: $80, 2 people: $160, 3 people: $240, 4+ people: $320",
     },
     included: [
       "GWK entrance ticket",
@@ -168,7 +168,7 @@ export const tourPackages: TourPackage[] = [
       amount: 100,
       perPerson: false,
       priceNote:
-        "1 person: $100, 2 people: $180, 3 people: $260, 4+ people: $340",
+        "1 person: $100, 2 people: $200, 3 people: $300, 4+ people: $400",
     },
     included: [
       "Boat for dolphin watching",
@@ -211,7 +211,7 @@ export const tourPackages: TourPackage[] = [
       amount: 90,
       perPerson: false,
       priceNote:
-        "1 person: $90, 2 people: $160, 3 people: $230, 4+ people: $300",
+        "1 person: $90, 2 people: $180, 3 people: $270, 4+ people: $360",
     },
     included: [
       "All entrance tickets",
@@ -245,7 +245,9 @@ export const tourPackages: TourPackage[] = [
     image: "/East Bali/Gate of Heaven.jpg",
     gallery: [
       "/East Bali/Gate of Heaven.jpg",
+      "/East Bali/lempuyang.jpeg",
       "/East Bali/Tirta Gangga.jpg",
+      "/East Bali/tirta gangga.jpeg",
       "/East Bali/Taman Ujung.jpg",
       "/East Bali/Lereng Agung.jpg",
       "/East Bali/Goa Raja.jpg",
@@ -343,6 +345,7 @@ export const tourPackages: TourPackage[] = [
     image: "/Ubud A/Tirta Empul.jpg",
     gallery: [
       "/Ubud A/Goa Raja.jpg",
+      "/Ubud A/goa raja.jpeg",
       "/Ubud A/Tirta Empul.jpg",
       "/Ubud A/Tegal lalang.webp",
       "/Ubud A/Ulun petanu.webp",
@@ -359,7 +362,7 @@ export const tourPackages: TourPackage[] = [
       amount: 60,
       perPerson: false,
       priceNote:
-        "1 person: $60, 2 people: $100, 3 people: $140, 4+ people: $180",
+        "1 person: $60, 2 people: $120, 3 people: $180, 4+ people: $240",
     },
     included: [
       "All entrance tickets",
@@ -410,7 +413,7 @@ export const tourPackages: TourPackage[] = [
       amount: 115,
       perPerson: false,
       priceNote:
-        "1 person: $115, 2 people: $210, 3 people: $305, 4+ people: $400. Swing is optional.",
+        "1 person: $115, 2 people: $230, 3 people: $345, 4+ people: $460. Swing is optional.",
     },
     included: [
       "ATV quad bike",
@@ -448,6 +451,8 @@ export const tourPackages: TourPackage[] = [
     image: "/Visit Kintamani/Jeep Sunrise 1.jpg",
     gallery: [
       "/Visit Kintamani/Jeep Sunrise 1.jpg",
+      "/Visit Kintamani/jeepsunrise.jpeg",
+      "/Visit Kintamani/jeepsunrise2.jpeg",
       "/Visit Kintamani/new jeep.jpeg",
       "/Visit Kintamani/Coffee plantation 2.jpg",
       "/Visit Kintamani/Coffee planatation 1.jpg",
@@ -464,7 +469,7 @@ export const tourPackages: TourPackage[] = [
       amount: 130,
       perPerson: false,
       priceNote:
-        "1 person: $130, 2 people: $240, 3 people: $350, 4+ people: $460",
+        "1 person: $130, 2 people: $230, 3 people: $345, 4+ people: $460. Swing is optional.",
     },
     included: [
       "4WD Jeep",
@@ -516,7 +521,7 @@ export const tourPackages: TourPackage[] = [
       amount: 50,
       perPerson: false,
       priceNote:
-        "1 person: $50, 2 people: $80, 3 people: $110, 4+ people: $140",
+        "1 person: $50, 2 people: $100, 3 people: $150, 4+ people: $200",
     },
     included: [
       "All park entrance tickets",
@@ -568,7 +573,7 @@ export const tourPackages: TourPackage[] = [
       amount: 95,
       perPerson: false,
       priceNote:
-        "1 person: $95, 2 people: $170, 3 people: $245, 4+ people: $320",
+        "1 person: $95, 2 people: $190, 3 people: $285, 4+ people: $380",
     },
     included: [
       "Hotel pickup and drop-off",

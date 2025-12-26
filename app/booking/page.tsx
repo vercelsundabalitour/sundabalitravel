@@ -1,35 +1,48 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useSearchParams } from "next/navigation";
 import { motion } from "framer-motion";
 import { FaWhatsapp, FaUniversity, FaMoneyBillWave } from "react-icons/fa";
 import { SiWise } from "react-icons/si";
 
 export default function BookingPage() {
+  const searchParams = useSearchParams();
+  const tourName = searchParams.get("tourName") || "";
+  const basePrice = parseFloat(searchParams.get("basePrice") || "0");
+
   const [formData, setFormData] = useState({
     name: "",
-    pax: "",
-    hotel: "",
-    pickupTime: "",
-    tourType: "",
+    surname: "",
+    amountOfPeople: 1,
+    from: "",
+    to: "",
+    email: "",
+    message: "",
   });
 
+  const [totalAmount, setTotalAmount] = useState(0);
   const whatsappNumber = "6285724336853";
 
-  const pickupTimes = [
-    { value: "02:00", label: "2:00 AM (Jeep Tour Only)" },
-    { value: "02:30", label: "2:30 AM (Jeep Tour Only)" },
-    { value: "06:00", label: "6:00 AM" },
-    { value: "06:30", label: "6:30 AM" },
-    { value: "07:00", label: "7:00 AM" },
-    { value: "07:30", label: "7:30 AM" },
-    { value: "08:00", label: "8:00 AM" },
-    { value: "08:30", label: "8:30 AM" },
-  ];
+  useEffect(() => {
+    setTotalAmount(basePrice * formData.amountOfPeople);
+  }, [basePrice, formData.amountOfPeople]);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    const message = `Hi! I would like to book a tour:\n\nName: ${formData.name}\nNumber of Pax: ${formData.pax}\nHotel Name: ${formData.hotel}\nPickup Time: ${formData.pickupTime}\nTour Type: ${formData.tourType}\n\nPlease confirm availability and send payment details. Thank you!`;
+    const message = `🎫 NEW TOUR BOOKING REQUEST\n\n📋 Tour Details:\nTour: ${tourName}\n\n👤 Customer Information:\nName: ${
+      formData.name
+    } ${formData.surname}\nEmail: ${
+      formData.email
+    }\n\n📅 Travel Details:\nNumber of People: ${
+      formData.amountOfPeople
+    }\nFrom: ${formData.from}\nTo: ${
+      formData.to
+    }\n\n💰 Price Calculation:\nBase Price: $${basePrice} per person\nTotal Amount: $${totalAmount} (${
+      formData.amountOfPeople
+    } × $${basePrice})\n\n💬 Message:\n${
+      formData.message || "No additional message"
+    }\n\nPlease confirm availability and send booking confirmation. Thank you!`;
     const url = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(
       message
     )}`;
@@ -37,11 +50,14 @@ export default function BookingPage() {
   };
 
   const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
+    >
   ) => {
+    const { name, value } = e.target;
     setFormData({
       ...formData,
-      [e.target.name]: e.target.value,
+      [name]: name === "amountOfPeople" ? parseInt(value) || 1 : value,
     });
   };
 
@@ -57,8 +73,13 @@ export default function BookingPage() {
           <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
             Book Your Bali Adventure
           </h1>
+          {tourName && (
+            <p className="text-2xl text-blue-600 font-semibold mb-2">
+              {tourName}
+            </p>
+          )}
           <p className="text-xl text-gray-600">
-            Easy booking process with flexible payment options
+            Complete the form below to confirm your booking
           </p>
         </motion.div>
 
@@ -78,7 +99,7 @@ export default function BookingPage() {
             <form onSubmit={handleSubmit} className="space-y-5">
               <div>
                 <label className="block text-sm font-semibold text-gray-700 mb-2">
-                  Name *
+                  First Name *
                 </label>
                 <input
                   type="text"
@@ -87,74 +108,116 @@ export default function BookingPage() {
                   onChange={handleChange}
                   required
                   className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                  placeholder="Your full name"
+                  placeholder="John"
                 />
               </div>
 
               <div>
                 <label className="block text-sm font-semibold text-gray-700 mb-2">
-                  Number of Passengers *
+                  Surname *
+                </label>
+                <input
+                  type="text"
+                  name="surname"
+                  value={formData.surname}
+                  onChange={handleChange}
+                  required
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  placeholder="Doe"
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-semibold text-gray-700 mb-2">
+                  Amount of People *
                 </label>
                 <input
                   type="number"
-                  name="pax"
-                  value={formData.pax}
+                  name="amountOfPeople"
+                  value={formData.amountOfPeople}
                   onChange={handleChange}
                   required
                   min="1"
                   className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                  placeholder="e.g., 2"
+                  placeholder="1"
                 />
               </div>
 
               <div>
                 <label className="block text-sm font-semibold text-gray-700 mb-2">
-                  Hotel Name *
+                  From (Date) *
                 </label>
                 <input
-                  type="text"
-                  name="hotel"
-                  value={formData.hotel}
+                  type="date"
+                  name="from"
+                  value={formData.from}
                   onChange={handleChange}
                   required
                   className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                  placeholder="Your hotel name in Bali"
                 />
               </div>
 
               <div>
                 <label className="block text-sm font-semibold text-gray-700 mb-2">
-                  Pickup Time *
-                </label>
-                <select
-                  name="pickupTime"
-                  value={formData.pickupTime}
-                  onChange={handleChange}
-                  required
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                >
-                  <option value="">Select pickup time</option>
-                  {pickupTimes.map((time) => (
-                    <option key={time.value} value={time.label}>
-                      {time.label}
-                    </option>
-                  ))}
-                </select>
-              </div>
-
-              <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">
-                  Tour Type *
+                  To (Date) *
                 </label>
                 <input
-                  type="text"
-                  name="tourType"
-                  value={formData.tourType}
+                  type="date"
+                  name="to"
+                  value={formData.to}
                   onChange={handleChange}
                   required
                   className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                  placeholder="e.g., UNESCO Heritage Tour"
                 />
+              </div>
+
+              <div>
+                <label className="block text-sm font-semibold text-gray-700 mb-2">
+                  Email *
+                </label>
+                <input
+                  type="email"
+                  name="email"
+                  value={formData.email}
+                  onChange={handleChange}
+                  required
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  placeholder="john.doe@example.com"
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-semibold text-gray-700 mb-2">
+                  Message (Optional)
+                </label>
+                <textarea
+                  name="message"
+                  value={formData.message}
+                  onChange={handleChange}
+                  rows={4}
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  placeholder="Any special requests or questions..."
+                />
+              </div>
+
+              {/* Total Amount Display */}
+              <div className="bg-gradient-to-r from-blue-50 to-green-50 rounded-lg p-6 border-2 border-blue-200">
+                <div className="flex justify-between items-center mb-2">
+                  <span className="text-gray-700 font-semibold">
+                    Base Price:
+                  </span>
+                  <span className="text-xl font-bold text-gray-900">
+                    ${basePrice} × {formData.amountOfPeople}
+                  </span>
+                </div>
+                <div className="flex justify-between items-center pt-3 border-t-2 border-blue-200">
+                  <span className="text-lg font-bold text-gray-900">
+                    Total Amount:
+                  </span>
+                  <span className="text-3xl font-bold text-blue-600">
+                    ${totalAmount}
+                  </span>
+                </div>
               </div>
 
               <button
