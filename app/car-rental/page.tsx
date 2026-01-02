@@ -50,7 +50,7 @@ export default function CarRentalPage() {
     {
       id: "alphard",
       name: "Toyota Alphard",
-      price: "2,500,000",
+      price: "3,000,000",
       passengers: 4,
       image: "/cars/alphard.jpg",
       features: [
@@ -59,6 +59,20 @@ export default function CarRentalPage() {
         "Professional chauffeur",
         "Fuel included",
         "Perfect for VIP tours",
+      ],
+    },
+    {
+      id: "denza",
+      name: "BYD Denza",
+      price: "3,000,000",
+      passengers: 6,
+      image: "/cars/denza.jpg",
+      features: [
+        "Modern electric luxury MPV",
+        "Spacious for up to 6 passengers",
+        "Professional chauffeur",
+        "Fuel included",
+        "Eco-friendly premium experience",
       ],
     },
     {

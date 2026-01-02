@@ -282,7 +282,7 @@ export const southBaliDestinations: Destination[] = [
     bestTimeToVisit: "Morning or afternoon sessions",
     duration: "2-3 hours",
     difficulty: "Easy",
-    price: "From IDR 350,000 per person",
+    price: "From USD 125 per person",
   },
   {
     id: "extreme-swing",
