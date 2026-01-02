@@ -572,7 +572,7 @@ export const tourPackages: TourPackage[] = [
     price: {
       amount: 125000,
       perPerson: true,
-      priceNote: "IDR 125,000 per person",
+      priceNote: "$125 per person",
     },
     included: [
       "Hotel pickup and drop-off",

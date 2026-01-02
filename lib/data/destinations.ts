@@ -382,7 +382,7 @@ export const southBaliDestinations: Destination[] = [
     bestTimeToVisit: "Late afternoon for performances",
     duration: "3-4 hours",
     difficulty: "Easy",
-    price: "IDR 125,000 adults, IDR 100,000 children",
+    price: "$125 adults, $100 children",
   },
   {
     id: "snorkeling-nusa-dua",
@@ -609,7 +609,7 @@ export const northBaliDestinations: Destination[] = [
     bestTimeToVisit: "Morning for activities",
     duration: "3-4 hours",
     difficulty: "Moderate",
-    price: "IDR 125,000 with activities",
+    price: "$125 with activities",
   },
 
   // LAKES & MOUNTAINS
