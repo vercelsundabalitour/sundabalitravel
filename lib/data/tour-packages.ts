@@ -410,10 +410,10 @@ export const tourPackages: TourPackage[] = [
       "Buggy Ride (Optional)",
     ],
     price: {
-      amount: 115,
+      amount: 125,
       perPerson: false,
       priceNote:
-        "1 person: $115, 2 people: $230, 3 people: $345, 4+ people: $460. Swing is optional.",
+        "1 person: $125, 2 people: $250, 3 people: $375, 4+ people: $500. Swing is optional.",
     },
     included: [
       "ATV quad bike",
@@ -444,9 +444,9 @@ export const tourPackages: TourPackage[] = [
     region: "Central Bali",
     category: "Sunrise",
     description:
-      "Exciting jeep adventure to catch the sunrise at Mount Batur, visit coffee plantation and relax at hot springs",
+      "Exciting jeep adventure to catch the sunrise at Mount Batur, visit coffee plantation and relax at hot springs. Trekking Mount Batur available by request.",
     descriptionIndonesian:
-      "Petualangan jeep yang menarik untuk menangkap matahari terbit di Gunung Batur, kunjungi perkebunan kopi dan bersantai di pemandian air panas",
+      "Petualangan jeep yang menarik untuk menangkap matahari terbit di Gunung Batur, kunjungi perkebunan kopi dan bersantai di pemandian air panas. Trekking Gunung Batur tersedia berdasarkan permintaan.",
     featured: true,
     image: "/Visit Kintamani/Jeep Sunrise 1.jpg",
     gallery: [
@@ -464,12 +464,13 @@ export const tourPackages: TourPackage[] = [
       "Kintamani Cafe (Optional)",
       "Coffee Plantation",
       "Natural Hot Springs",
+      "Trekking Mount Batur (By Request)",
     ],
     price: {
-      amount: 130,
+      amount: 110,
       perPerson: false,
       priceNote:
-        "1 person: $130, 2 people: $230, 3 people: $345, 4+ people: $460. Swing is optional.",
+        "1 person: $110, 2 people: $220, 3 people: $330, 4+ people: $440. Trekking Mount Batur available by request.",
     },
     included: [
       "4WD Jeep",
@@ -570,7 +571,7 @@ export const tourPackages: TourPackage[] = [
       "Fast boat to Nusa Penida",
     ],
     price: {
-      amount: 125000,
+      amount: 125,
       perPerson: true,
       priceNote: "$125 per person",
     },
@@ -595,6 +596,67 @@ export const tourPackages: TourPackage[] = [
       "Visit 3 best snorkeling spots in Nusa Penida",
       "Professional underwater photography included",
       "Small group for personalized experience",
+    ],
+  },
+  {
+    id: "gili-trawangan-snorkeling",
+    slug: "gili-trawangan-snorkeling",
+    name: "Gili Trawangan Snorkeling Adventure",
+    nameIndonesian: "Petualangan Snorkeling Gili Trawangan",
+    region: "South Bali",
+    category: "Beach",
+    description:
+      "Experience the ultimate snorkeling adventure at Gili Trawangan with crystal clear turquoise waters, vibrant coral reefs, and diverse marine life. Scuba diving available upon request.",
+    descriptionIndonesian:
+      "Rasakan petualangan snorkeling terbaik di Gili Trawangan dengan air biru jernih, terumbu karang yang indah, dan kehidupan laut yang beragam. Scuba diving tersedia berdasarkan permintaan.",
+    featured: true,
+    image: "/gili/diving.jpeg",
+    gallery: [
+      "/gili/diving.jpeg",
+      "/gili/diving2.jpeg",
+      "/gili/diving3.jpeg",
+      "/gili/diving4.jpeg",
+    ],
+    destinations: [
+      "Gili Trawangan Island",
+      "Turtle Point (Snorkeling with sea turtles)",
+      "Coral Garden (Vibrant reef ecosystem)",
+      "Fast boat to Gili Islands",
+      "Scuba Diving (Optional - By Request)",
+    ],
+    price: {
+      amount: 135,
+      perPerson: true,
+      priceNote:
+        "$135 per person. Scuba diving available by request (additional cost).",
+    },
+    included: [
+      "Hotel pickup and drop-off",
+      "Fast boat transfers to/from Gili Trawangan",
+      "Snorkeling equipment (mask, fins, snorkel, life jacket)",
+      "Professional snorkeling guide",
+      "Visit 3 snorkeling spots",
+      "Towels and locker",
+      "Lunch at local restaurant",
+      "Bottled water and refreshments",
+      "Insurance coverage",
+    ],
+    excluded: [
+      "Scuba diving (available by request)",
+      "Personal expenses",
+      "Tips for guide and crew",
+    ],
+    duration: "Full day (10-12 hours)",
+    difficulty: "Easy",
+    bestTimeToVisit: "April to October (best visibility)",
+    highlights: [
+      "Swim with sea turtles at Turtle Point",
+      "Explore vibrant coral gardens",
+      "Crystal clear waters with excellent visibility",
+      "Visit the famous Gili Trawangan island",
+      "Scuba diving available upon request",
+      "Small group for personalized experience",
+      "Free time to explore the island",
     ],
   },
 ];
